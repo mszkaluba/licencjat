@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+{% block head %}
+    <meta charset="utf-8">
+    {% block title %}Nowy przetarg{% endblock %}
+{% endblock %}
+
+{% block body %}
+    {% if app.user %}
+        Stwórz swoją postać {{ app.user.username }}
+        <a href="{{ path('app_logout') }}" type="button" class="btn btn-primary btn-lg">Wyloguj</a>
+
+        <div class="badaczu"> Twoja karta zdrowia</div>
+        <form action="{{ path('nowy') }}" method="POST" name="nowyPrzetarg">
+            <label>Nazwa:</label>
+            <input type="text" name="nazwa" id="nazwa"/>
+            </br>
+
+            <label>Nazwa wystawcy:</label>
+            <input type="text" name="wystawca"/>
+            </br>
+
+            <label>Data wystawienia:</label>
+            <input type="date" name="dataWystwaienia"/>
+            </br>
+
+            <label>Data zakończenia naboru ofert:</label>
+            <input type="date" name="dataZakonczenia"/>
+            </br>
+            <input type="hidden" name="id" value="{{ app.user.id }}"/>
+            <input type="submit" value="Zatwierdź postać"/></br>
+        </form>
+        </div>
+    {% endif %}
+{% endblock %}

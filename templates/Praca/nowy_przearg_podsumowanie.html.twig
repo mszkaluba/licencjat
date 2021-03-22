@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block head %}
+    <meta charset="utf-8">
+    {% block title %}Podsumowanie{% endblock %}
+{% endblock %}
+
+{% block body %}
+    <h5>Dane przetargu</h5>
+    Nazwa: {{ przetarg.nazwa }} </br>
+    Osoba/Firma wystawiająca: {{ przetarg.wystawcaNazwa }} </br>
+    Data wystawienia: {{ przetarg.dataRozpoczecia }} </br>
+    Data zakończenia zgłaszania ofert: {{ przetarg.dataZakonczenia }} </br>
+{% endblock %}

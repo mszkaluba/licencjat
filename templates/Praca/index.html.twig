@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+{% block head %}
+    <meta charset="utf-8">
+    {% block title %}Praca licencjacka{% endblock %}
+{% endblock %}
+
+{% block body %}
+    <a href="{{ path('app_login') }}">Zaloguj się</a>
+    <a href="{{ path('user_registration') }}"> Załóż konto </a></br>
+    <a href="{{ path('glowna') }}"> Glowna </a>
+{% endblock %}
