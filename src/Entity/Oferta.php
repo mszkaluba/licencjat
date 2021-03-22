@@ -184,4 +184,12 @@ class Oferta
     {
         $this->iloscPodobnychProjektow = $iloscPodobnychProjektow;
     }
+
+    /**
+     * @param \User $idOsobyfirmy
+     */
+    public function setIdOsobyfirmy(\User $idOsobyfirmy): void
+    {
+        $this->idOsobyfirmy = $idOsobyfirmy;
+    }
 }
