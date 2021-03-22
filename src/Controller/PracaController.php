@@ -2,6 +2,7 @@
         namespace App\Controller;
 
         use App\Entity\Przetarg;
+        use App\Entity\User;
         use Symfony\Component\Routing\Annotation\Route;
         use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
         use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,7 +34,7 @@
              * @Method({"POST", "GET"})
              */
             public function mojePrzetargi($id) {
-                $przetargi = $this->getDoctrine()->getRepository(Przetarg::class)->findBy(array('wystawca' => $id));
+                $przetargi = $this->getDoctrine()->getRepository(Przetarg::class)->findBy(array('id' => $id));
 
                 if (!$przetargi) {
                     print "<script type='text/javascript'>alert('Nie wystawiłeś żadnego przetargu!');</script>";
@@ -56,6 +57,7 @@
             public function podsumowanie() {
                 $entityMenager = $this->getDoctrine()->getManager();
                 $id = $_POST['id'];
+                $user = $entityMenager->find(User::class, $id);
                 $nazwa = $_POST['nazwa'];
                 $wystawca = $_POST['wystawca'];
                 $dataWystwaienia = $_POST['dataWystwaienia'];
@@ -64,9 +66,9 @@
                 $przetarg = new Przetarg;
                 $przetarg->setNazwa($nazwa);
                 $przetarg->setWystawcaNazwa($wystawca);
-                $przetarg->setDataRozpoczecia($dataWystwaienia);
-                $przetarg->setDataZakonczenia($dataZakonczenia);
-                $przetarg->setWystawca($id);
+                $przetarg->setDataRozpoczecia(new \DateTime($dataWystwaienia));
+                $przetarg->setDataZakonczenia(new \DateTime($dataZakonczenia));
+                $przetarg->setWystawca($user);
 
                 $entityMenager->persist($przetarg);
                 $entityMenager->flush();

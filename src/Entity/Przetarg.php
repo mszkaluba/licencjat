@@ -50,7 +50,7 @@ class Przetarg
     private $dataZakonczenia;
 
     /**
-     * @var \User
+     * @var User
      *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
@@ -100,9 +100,9 @@ class Przetarg
     }
 
     /**
-     * @return \User
+     * @return User
      */
-    public function getWystawca(): \User
+    public function getWystawca(): User
     {
         return $this->wystawca;
     }
@@ -140,9 +140,9 @@ class Przetarg
     }
 
     /**
-     * @param \User $wystawca
+     * @param User $wystawca
      */
-    public function setWystawca(\User $wystawca): void
+    public function setWystawca(User $wystawca): void
     {
         $this->wystawca = $wystawca;
     }
