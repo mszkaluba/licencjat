@@ -5,10 +5,14 @@
 {% endblock %}
 
 {% block body %}
+    <a href="{{ path('glowna') }}">Przetargi</a>
+{#    <a href="{{ path('mojePrzetargi', {'id': app.user.id}) }}">Moje przetargi</a>#}
+    <a href="{{ path('app_logout') }}">Wyloguj</a>
     {% for przetarg in przetargi %}
         <h5>Dane przetargu</h5>
         Nazwa: {{ przetarg.nazwa }} </br>
         Data wystawienia: {{ przetarg.dataRozpoczecia }} </br>
         Data zakończenia zgłaszania ofert: {{ przetarg.dataZakonczenia }} </br>
     {% endfor %}
+    <a href="{{ path('nowy') }}" type="button">Nowy przetarg</a>
 {% endblock %}

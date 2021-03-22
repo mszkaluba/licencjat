@@ -10,7 +10,7 @@
         <a href="{{ path('app_logout') }}" type="button" class="btn btn-primary btn-lg">Wyloguj</a>
 
         <div class="badaczu"> Twoja karta zdrowia</div>
-        <form action="{{ path('nowy') }}" method="POST" name="nowyPrzetarg">
+        <form action="{{ path('podsumowanie') }}" method="POST" name="nowyPrzetarg">
             <label>Nazwa:</label>
             <input type="text" name="nazwa" id="nazwa"/>
             </br>
@@ -27,7 +27,7 @@
             <input type="date" name="dataZakonczenia"/>
             </br>
             <input type="hidden" name="id" value="{{ app.user.id }}"/>
-            <input type="submit" value="Zatwierdź postać"/></br>
+            <input type="submit" value="Stwórz przetarg"/></br>
         </form>
         </div>
     {% endif %}

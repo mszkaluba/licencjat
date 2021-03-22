@@ -46,6 +46,14 @@
              * @Method({"GET","POST"})
              */
             public function nowy() {
+                return $this->render('Praca/nowy_przetarg.html.twig');
+            }
+
+            /**
+             * @Route("/podsumowanie", name="podsumowanie")
+             * @Method({"GET","POST"})
+             */
+            public function podsumowanie() {
                 $entityMenager = $this->getDoctrine()->getManager();
                 $id = $_POST['id'];
                 $nazwa = $_POST['nazwa'];
