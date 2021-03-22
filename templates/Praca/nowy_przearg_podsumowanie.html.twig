@@ -5,9 +5,10 @@
 {% endblock %}
 
 {% block body %}
-    <h5>Dane przetargu</h5>
+    <h3>Dane dodanego przetargu</h3>
     Nazwa: {{ przetarg.nazwa }} </br>
     Osoba/Firma wystawiająca: {{ przetarg.wystawcaNazwa }} </br>
-    Data wystawienia: {{ przetarg.dataRozpoczecia }} </br>
-    Data zakończenia zgłaszania ofert: {{ przetarg.dataZakonczenia }} </br>
+    Data wystawienia: {{ przetarg.dataRozpoczecia|date("d/m/Y")}} </br>
+    Data zakończenia zgłaszania ofert: {{ przetarg.dataZakonczenia|date("d/m/Y") }} </br></br>
+    <a href="{{ path('mojePrzetargi', {'id': app.user.id}) }}">Moje przetargi</a>
 {% endblock %}

@@ -70,6 +70,14 @@ class User implements UserInterface
         $this->email = $email;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function getUsername()
     {
         return $this->username;
