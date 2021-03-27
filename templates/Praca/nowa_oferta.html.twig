@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+{% block head %}
+    <meta charset="utf-8">
+    {% block title %}Nowa oferta{% endblock %}
+{% endblock %}
+
+{% block body %}
+    {% if app.user %}
+        <a href="{{ path('glowna') }}">Przetargi</a>
+        <a href="{{ path('mojePrzetargi', {'id': app.user.id}) }}">Moje przetargi</a>
+        <a href="{{ path('mojeOferty', {'id': app.user.id}) }}">Moje oferty</a>
+        <a href="{{ path('app_logout') }}" type="button">Wyloguj</a>
+        </br></br>
+        <h3>Wprowadź dane przetargu {{ app.user.username }}</h3>
+
+        <div><h3>Twoja oferta przetargowa</h3></div>
+        <form action="{{ path('podsumowanieOferty') }}" method="POST" name="nowaOferta">
+            <label>Nazwisko lub nazwa firmy:</label>
+            <input type="text" name="nazwiskoNazwa"/>
+            </br>
+
+            <label>Cena:</label>
+            <input type="number" name="cena"/>
+            </br>
+
+            <label>Termin realizacji:</label>
+            <input type="date" name="dataRealizacji"/>
+            </br>
+
+            <label>Okres gwarancji:</label>
+            <input type="date" name="okresGwarancji"/>
+            </br>
+
+            <label>Doświdczenie:</label>
+            <input type="text" name="doswiadczenie"/>
+            </br>
+
+            <label>Ilość podobnych projektów:</label>
+            <input type="number" name="ilosc"/>
+            </br>
+            <input type="hidden" name="id" value="{{ app.user.id }}"/>
+            <input type="hidden" name="przetarg" value="{{ id }}"/>
+            <input type="submit" value="Wyślij ofertę"/></br>
+        </form>
+        </div>
+    {% endif %}
+{% endblock %}
