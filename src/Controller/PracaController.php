@@ -5,9 +5,17 @@ namespace App\Controller;
 use App\Entity\Oferta;
 use App\Entity\Przetarg;
 use App\Entity\User;
+use ContainerSDI9S8v\getAppAuthenticatorService;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class PracaController extends AbstractController
 {
@@ -40,7 +48,7 @@ class PracaController extends AbstractController
      */
     public function mojePrzetargi($id)
     {
-        $przetargi = $this->getDoctrine()->getRepository(Przetarg::class)->findBy(array('id' => $id));
+        $przetargi = $this->getDoctrine()->getRepository(Przetarg::class)->findBy(array('wystawca' => $id));
 
         if (!$przetargi) {
             print "<script type='text/javascript'>alert('Nie wystawiłeś żadnego przetargu!');</script>";
@@ -49,39 +57,33 @@ class PracaController extends AbstractController
     }
 
     /**
-     * @Route("/nowyPrzetarg", name="nowy")
+     * @Route("/nowyPrzetarg{id}", name="nowy")
      * @Method({"GET","POST"})
      */
-    public function nowy()
+    public function nowy(Request $request, $id)
     {
-        return $this->render('Praca/nowy_przetarg.html.twig');
-    }
+        $przetarg = new Przetarg();
 
-    /**
-     * @Route("/podsumowanie", name="podsumowanie")
-     * @Method({"GET","POST"})
-     */
-    public function podsumowanie()
-    {
-        $entityMenager = $this->getDoctrine()->getManager();
-        $id = $_POST['id'];
-        $user = $entityMenager->find(User::class, $id);
-        $nazwa = $_POST['nazwa'];
-        $wystawca = $_POST['wystawca'];
-        $dataWystwaienia = $_POST['dataWystwaienia'];
-        $dataZakonczenia = $_POST['dataZakonczenia'];
+        $form = $this->createFormBuilder($przetarg)
+            ->add('nazwa', TextType::class)
+            ->add('wystawcaNazwa', TextType::class)
+            ->add('dataRozpoczecia', DateType::class, array('widget' => 'choice'))
+            ->add('dataZakonczenia', DateType::class, array('widget' => 'choice'))
+            ->add('zapisz', SubmitType::class, array('label' => 'Zapisz przetarg'))
+            ->getForm();
 
-        $przetarg = new Przetarg;
-        $przetarg->setNazwa($nazwa);
-        $przetarg->setWystawcaNazwa($wystawca);
-        $przetarg->setDataRozpoczecia(new \DateTime($dataWystwaienia));
-        $przetarg->setDataZakonczenia(new \DateTime($dataZakonczenia));
-        $przetarg->setWystawca($user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $uzytkownik = $entityManager->find(User::class, $id);
+            $przetarg->setWystawca($uzytkownik);
+            $entityManager->persist($przetarg);
+            $entityManager->flush();
 
-        $entityMenager->persist($przetarg);
-        $entityMenager->flush();
+            return $this->render('Praca/nowy_przearg_podsumowanie.html.twig', array('przetarg' => $przetarg));
+        }
 
-        return $this->render('Praca/nowy_przearg_podsumowanie.html.twig', ['przetarg' => $przetarg]);
+        return $this->render('Praca/nowy_przetarg.html.twig', array('form' => $form->createView()));
     }
 
     /**
@@ -90,7 +92,7 @@ class PracaController extends AbstractController
      */
     public function mojeOferty($id)
     {
-        $oferty = $this->getDoctrine()->getRepository(Oferta::class)->findBy(array('id' => $id));
+        $oferty = $this->getDoctrine()->getRepository(Oferta::class)->findBy(array('idOsobyfirmy' => $id));
 
         if (!$oferty) {
             print "<script type='text/javascript'>alert('Nie wysłałeś żdanej oferty!');</script>";
@@ -102,42 +104,35 @@ class PracaController extends AbstractController
      * @Route("/nowaOferta/{id}", name="nowaOferta")
      * @Method({"GET","POST"})
      */
-    public function nowaOferta($id)
+    public function nowaOferta(Request $request, $id)
     {
-        return $this->render('Praca/nowa_oferta.html.twig', ['id' => $id]);
-    }
-
-    /**
-     * @Route("/podsumowanieOferty", name="podsumowanieOferty")
-     * @Method({"GET","POST"})
-     */
-    public function podsumowanieOferty()
-    {
-        $entityMenager = $this->getDoctrine()->getManager();
-        $id = $_POST['id'];
-        $przetargId = $_POST['przetarg'];
-        $user = $entityMenager->find(User::class, $id);
-        $przetarg = $entityMenager->find(Przetarg::class, $przetargId);
-        $nazwiskoNazwa = $_POST['nazwiskoNazwa'];
-        $cena = $_POST['cena'];
-        $dataRealizacji = $_POST['dataRealizacji'];
-        $okresGwarancji = $_POST['okresGwarancji'];
-        $doswiadczenie = $_POST['doswiadczenie'];
-        $ilosc = $_POST['ilosc'];
-
         $oferta = new Oferta();
-        $oferta->setIdOsobyfirmy($user);
-        $oferta->setIdPrzetargu($przetarg);
-        $oferta->setNazwsiskolubnazwa($nazwiskoNazwa);
-        $oferta->setCena($cena);
-        $oferta->setTerminRealizacji(new \DateTime($dataRealizacji));
-        $oferta->setOkresGwarancji(new \DateTime($okresGwarancji));
-        $oferta->setDoswiadczenie($doswiadczenie);
-        $oferta->setIloscPodobnychProjektow($ilosc);
 
-        $entityMenager->persist($oferta);
-        $entityMenager->flush();
+        $form = $this->createFormBuilder($oferta)
+            ->add('nazwsiskolubnazwa', TextType::class)
+            ->add('cena', NumberType::class)
+            ->add('terminRealizacji', DateType::class, array('widget' => 'choice'))
+            ->add('okresGwarancji', DateType::class, array('widget' => 'choice'))
+            ->add('doswiadczenie', TextType::class)
+            ->add('iloscPodobnychProjektow', NumberType::class)
+            ->add('zapisz', SubmitType::class, array('label' => 'Wyślij ofertę'))
+            ->getForm();
 
-        return $this->render('Praca/podumowanie_oferty.html.twig', ['oferta' => $oferta]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $przetarg = $entityManager->find(Przetarg::class, $id);
+            $user = $this->getUser();
+            $oferta->setIdPrzetargu($przetarg);
+            $oferta->setIdOsobyfirmy($user);
+
+            $entityManager->persist($oferta);
+            $entityManager->flush();
+
+            return $this->render('Praca/podumowanie_oferty.html.twig', array('oferta' => $oferta));
+        }
+
+        return $this->render('Praca/nowa_oferta.html.twig', array('form' => $form->createView()));
     }
 }

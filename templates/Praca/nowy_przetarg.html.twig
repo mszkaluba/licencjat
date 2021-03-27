@@ -6,29 +6,14 @@
 
 {% block body %}
     {% if app.user %}
-        Stwórz przetarg {{ app.user.username }}
-        <a href="{{ path('app_logout') }}" type="button" class="btn btn-primary btn-lg">Wyloguj</a>
+        <a href="{{ path('glowna') }}">Przetargi</a>
+        <a href="{{ path('mojePrzetargi', {'id': app.user.id}) }}">Moje przetargi</a>
+        <a href="{{ path('mojeOferty', {'id': app.user.id}) }}">Moje oferty</a>
+        <a href="{{ path('app_logout') }}" type="button">Wyloguj</a></br></br>
+        <h3>Stwórz przetarg {{ app.user.username }}</h3>
 
-        <div class="badaczu"> Twoja karta zdrowia</div>
-        <form action="{{ path('podsumowanie') }}" method="POST" name="nowyPrzetarg">
-            <label>Nazwa:</label>
-            <input type="text" name="nazwa" id="nazwa"/>
-            </br>
-
-            <label>Nazwa wystawcy:</label>
-            <input type="text" name="wystawca"/>
-            </br>
-
-            <label>Data wystawienia:</label>
-            <input type="date" name="dataWystwaienia"/>
-            </br>
-
-            <label>Data zakończenia naboru ofert:</label>
-            <input type="date" name="dataZakonczenia"/>
-            </br>
-            <input type="hidden" name="id" value="{{ app.user.id }}"/>
-            <input type="submit" value="Stwórz przetarg"/></br>
-        </form>
-        </div>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
     {% endif %}
 {% endblock %}
