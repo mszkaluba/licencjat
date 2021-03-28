@@ -6,12 +6,12 @@
 
 {% block body %}
     <h3>Dane wysłanej oferty</h3>
-    Nazwa przetargu: {{ oferta.idPrzetargu.nazwa }}
+    Nazwa przetargu: {{ oferta.idPrzetargu.nazwa }} </br>
     Nazwisko/Nazwa: {{ oferta.nazwsiskolubnazwa }} </br>
     Cena: {{ oferta.cena }} </br>
     Termin realizacji: {{ oferta.terminRealizacji|date("d/m/Y")}} </br>
     Okres gwarancji: {{ oferta.okresGwarancji|date("d/m/Y") }} </br>
     Doświadczenie: {{ oferta.doswiadczenie }} </br>
     Ilość podobnych projektów: {{ oferta.iloscPodobnychProjektow }} </br></br>
-    <a href="{{ path('glowna') }}">Strona głowna</a>
+    <a href="{{ path('mojeOferty') }}">Strona głowna</a>
 {% endblock %}

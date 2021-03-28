@@ -65,7 +65,7 @@ class PracaController extends AbstractController
         $przetarg = new Przetarg();
 
         $form = $this->createFormBuilder($przetarg)
-            ->add('nazwa', TextType::class)
+            ->add('nazwa', TextType::class, array('label' => 'Nazwa i opis'))
             ->add('wystawcaNazwa', TextType::class)
             ->add('dataRozpoczecia', DateType::class, array('widget' => 'choice'))
             ->add('dataZakonczenia', DateType::class, array('widget' => 'choice'))
@@ -109,7 +109,7 @@ class PracaController extends AbstractController
         $oferta = new Oferta();
 
         $form = $this->createFormBuilder($oferta)
-            ->add('nazwsiskolubnazwa', TextType::class)
+            ->add('nazwsiskolubnazwa', TextType::class, array('label' => 'Nazwisko lub nazwa firmy'))
             ->add('cena', NumberType::class)
             ->add('terminRealizacji', DateType::class, array('widget' => 'choice'))
             ->add('okresGwarancji', DateType::class, array('widget' => 'choice'))
@@ -134,5 +134,60 @@ class PracaController extends AbstractController
         }
 
         return $this->render('Praca/nowa_oferta.html.twig', array('form' => $form->createView()));
+    }
+
+    /**
+     * @Route("/edytujPrzetarg/{id}", name="edytujPrzetarg")
+     *@Method ({"GET", "POST"})
+     */
+    public function edytujPrzetarg(Request $request, $id) {
+        $przetarg = new Przetarg();
+        $przetarg = $this->getDoctrine()->getRepository(Przetarg::class)->find($id);
+
+        $form = $this->createFormBuilder($przetarg)
+            ->add('nazwa', TextType::class, array('label' => 'Nazwa i opis'))
+            ->add('dataRozpoczecia', DateType::class, array('widget' => 'choice'))
+            ->add('dataZakonczenia', DateType::class, array('widget' => 'choice'))
+            ->add('zapisz', SubmitType::class, array('label' => 'Zapisz przetarg'))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+
+            return $this->render('Praca/nowy_przearg_podsumowanie.html.twig', array('przetarg' => $przetarg));
+        }
+        return $this->render('Praca/edytujPrzetarg.html.twig', array('form' => $form->createView()));
+    }
+
+    /**
+     * @Route("/edytujOferte/{id}", name="edytujOferte")
+     *@Method ({"GET", "POST"})
+     */
+    public function edytujOferte(Request $request, $id) {
+        $oferta = new Oferta();
+        $oferta = $this->getDoctrine()->getRepository(Oferta::class)->find($id);
+
+        $form = $this->createFormBuilder($oferta)
+            ->add('nazwsiskolubnazwa', TextType::class, array('label' => 'Nazwisko lub nazwa firmy'))
+            ->add('cena', NumberType::class)
+            ->add('terminRealizacji', DateType::class, array('widget' => 'choice'))
+            ->add('okresGwarancji', DateType::class, array('widget' => 'choice'))
+            ->add('doswiadczenie', TextType::class)
+            ->add('iloscPodobnychProjektow', NumberType::class)
+            ->add('zapisz', SubmitType::class, array('label' => 'Zapisz ofertę'))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+
+            return $this->render('Praca/podumowanie_oferty.html.twig', array('oferta' => $oferta));
+        }
+        return $this->render('Praca/edytujOferte.html.twig', array('form' => $form->createView()));
     }
 }
