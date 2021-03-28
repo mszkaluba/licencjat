@@ -64,7 +64,7 @@ class Oferta
     private $iloscPodobnychProjektow;
 
     /**
-     * @var \User
+     * @var User
      *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
@@ -72,6 +72,32 @@ class Oferta
      * })
      */
     private $idOsobyfirmy;
+
+    /**
+     * @var Przetarg
+     *
+     * @ORM\ManyToOne(targetEntity="Przetarg")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_przetargu", referencedColumnName="id")
+     * })
+     */
+    private $idPrzetargu;
+
+    /**
+     * @return Przetarg
+     */
+    public function getIdPrzetargu(): Przetarg
+    {
+        return $this->idPrzetargu;
+    }
+
+    /**
+     * @param Przetarg $idPrzetargu
+     */
+    public function setIdPrzetargu(Przetarg $idPrzetargu): void
+    {
+        $this->idPrzetargu = $idPrzetargu;
+    }
 
     /**
      * @return int
@@ -130,9 +156,9 @@ class Oferta
     }
 
     /**
-     * @return \User
+     * @return User
      */
-    public function getIdOsobyfirmy(): \User
+    public function getIdOsobyfirmy(): User
     {
         return $this->idOsobyfirmy;
     }
@@ -186,9 +212,9 @@ class Oferta
     }
 
     /**
-     * @param \User $idOsobyfirmy
+     * @param User $idOsobyfirmy
      */
-    public function setIdOsobyfirmy(\User $idOsobyfirmy): void
+    public function setIdOsobyfirmy(User $idOsobyfirmy): void
     {
         $this->idOsobyfirmy = $idOsobyfirmy;
     }

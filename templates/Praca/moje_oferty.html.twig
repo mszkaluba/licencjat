@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% block head %}
+    <meta charset="utf-8">
+    {% block title %}Moje oferty{% endblock %}
+{% endblock %}
+
+{% block body %}
+    <a href="{{ path('glowna') }}">Przetargi</a>
+    <a href="{{ path('mojePrzetargi', {'id': app.user.id}) }}">Moje przetargi</a>
+    <a href="{{ path('mojeOferty', {'id': app.user.id}) }}">Moje oferty</a>
+    <a href="{{ path('app_logout') }}">Wyloguj</a>
+    {% for oferta in oferty %}
+        <h3>Dane oferty</h3>
+        Nazwa: {{ oferta.idPrzetargu.nazwa }} </br>
+        Cena: {{ oferta.cena }} </br>
+        Termin realizacji: {{ oferta.terminRealizacji|date("d/m/Y") }} </br>
+        Okres gwarancji: {{ oferta.okresGwarancji|date("d/m/Y") }} </br>
+        Doświdczenie: {{ oferta.doswiadczenie }} </br>
+        Ilość podobnych projektów: {{ oferta.iloscPodobnychProjektow }} </br>
+    {% endfor %}
+{% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block head %}
     <meta charset="utf-8">
-    {% block title %}Nowy przetarg{% endblock %}
+    {% block title %}Nowa oferta{% endblock %}
 {% endblock %}
 
 {% block body %}
@@ -9,11 +9,12 @@
         <a href="{{ path('glowna') }}">Przetargi</a>
         <a href="{{ path('mojePrzetargi', {'id': app.user.id}) }}">Moje przetargi</a>
         <a href="{{ path('mojeOferty', {'id': app.user.id}) }}">Moje oferty</a>
-        <a href="{{ path('app_logout') }}" type="button">Wyloguj</a></br></br>
-        <h3>Stwórz przetarg {{ app.user.username }}</h3>
-
+        <a href="{{ path('app_logout') }}" type="button">Wyloguj</a>
+        </br></br>
+        <div><h3>Uzupełnij formularz</h3></div>
         {{ form_start(form) }}
         {{ form_widget(form) }}
         {{ form_end(form) }}
+        </div>
     {% endif %}
 {% endblock %}
