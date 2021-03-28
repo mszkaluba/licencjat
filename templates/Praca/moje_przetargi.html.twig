@@ -11,8 +11,9 @@
     <a href="{{ path('app_logout') }}">Wyloguj</a>
     {% for przetarg in przetargi %}
         <h3>Dane przetargu</h3>
-        Nazwa: {{ przetarg.nazwa }} </br>
+        Nazwa i opis: {{ przetarg.nazwa }} </br>
         Data wystawienia: {{ przetarg.dataRozpoczecia|date("d/m/Y") }} </br>
         Data zakończenia zgłaszania ofert: {{ przetarg.dataZakonczenia|date("d/m/Y") }} </br>
+        <a href="{{ path('edytujPrzetarg', {'id': przetarg.id}) }}">Edytuj przetarg</a>
     {% endfor %}
 {% endblock %}

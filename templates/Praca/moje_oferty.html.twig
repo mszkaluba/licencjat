@@ -17,5 +17,6 @@
         Okres gwarancji: {{ oferta.okresGwarancji|date("d/m/Y") }} </br>
         Doświdczenie: {{ oferta.doswiadczenie }} </br>
         Ilość podobnych projektów: {{ oferta.iloscPodobnychProjektow }} </br>
+        <a href="{{ path('edytujOferte', {'id': oferta.id}) }}">Edytuj ofertę</a>
     {% endfor %}
 {% endblock %}
