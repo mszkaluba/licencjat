@@ -39,6 +39,7 @@ class Oferta
      * @var \DateTime
      *
      * @ORM\Column(name="termin_realizacji", type="date", nullable=false)
+     * @Assert\GreaterThan("today")
      */
     private $terminRealizacji;
 
@@ -46,6 +47,7 @@ class Oferta
      * @var \DateTime|null
      *
      * @ORM\Column(name="okres_gwarancji", type="date", nullable=true)
+     * @Assert\GreaterThan(propertyPath="terminRealizacji")
      */
     private $okresGwarancji;
 

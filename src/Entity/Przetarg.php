@@ -3,6 +3,10 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Przetarg
@@ -39,6 +43,7 @@ class Przetarg
      * @var \DateTime
      *
      * @ORM\Column(name="data_rozpoczecia", type="date", nullable=false)
+     * @Assert\GreaterThan("today")
      */
     private $dataRozpoczecia;
 
@@ -46,6 +51,7 @@ class Przetarg
      * @var \DateTime
      *
      * @ORM\Column(name="data_zakonczenia", type="date", nullable=false)
+     * @Assert\GreaterThan(propertyPath="dataRozpoczecia")
      */
     private $dataZakonczenia;
 

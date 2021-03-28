@@ -14,8 +14,6 @@
         Nazwa i opis: {{ przetarg.nazwa }} </br>
         Data wystawienia: {{ przetarg.dataRozpoczecia|date("d/m/Y") }} </br>
         Data zakończenia zgłaszania ofert: {{ przetarg.dataZakonczenia|date("d/m/Y") }} </br>
-        <button>
-            <a href="{{ path('edytujPrzetarg', {'id': przetarg.id}) }}">Edytuj przetarg</a>
-        </button>
+        <a href="{{ path('edytujPrzetarg', {'id': przetarg.id}) }}">Edytuj przetarg</a>
     {% endfor %}
 {% endblock %}
