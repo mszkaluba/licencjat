@@ -190,4 +190,18 @@ class PracaController extends AbstractController
         }
         return $this->render('Praca/edytujOferte.html.twig', array('form' => $form->createView()));
     }
+
+    /**
+     * @Route("/ofertyDlaPrzetargu/{id}", name="ofertyPrzetargu")
+     * @Method({"POST", "GET"})
+     */
+    public function ofertyDlaPrzetargu($id)
+    {
+        $oferty = $this->getDoctrine()->getRepository(Oferta::class)->findBy(array('idPrzetargu' => $id));
+
+        if (!$oferty) {
+            print "<script type='text/javascript'>alert('Nie złożono jeszcze żadnej oferty!');</script>";
+        }
+        return $this->render('Praca/ofertyPrzetargu.html.twig', ['oferty' => $oferty]);
+    }
 }
