@@ -13,5 +13,5 @@
     Okres gwarancji: {{ oferta.okresGwarancji|date("d/m/Y") }} </br>
     Doświadczenie: {{ oferta.doswiadczenie }} </br>
     Ilość podobnych projektów: {{ oferta.iloscPodobnychProjektow }} </br></br>
-    <a href="{{ path('mojeOferty') }}">Strona głowna</a>
+    <a href="{{ path('mojeOferty', {'id': app.user.id}) }}">Moje oferty</a>
 {% endblock %}
