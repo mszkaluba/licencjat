@@ -9,12 +9,17 @@
     <a href="{{ path('mojePrzetargi', {'id': app.user.id}) }}">Moje przetargi</a>
     <a href="{{ path('mojeOferty', {'id': app.user.id}) }}">Moje oferty</a>
     <a href="{{ path('app_logout') }}">Wyloguj</a>
-    {% for oferta in oferty %}
-        <h3>Dane oferty</h3>
-        Cena: {{ oferta.cena }} </br>
-        Termin realizacji: {{ oferta.terminRealizacji }} </br>
-        Okres gwarancji: {{ oferta.okresGwarancji }} </br>
-        Doświdczenie: {{ oferta.doswiadczenie }} </br>
-        Ilość podobnych projektów: {{ oferta.iloscPodobnychProjektow }} </br>
-    {% endfor %}
+    <p>Ustaw stopień zadowolenia dla poszczególnego atrybutu w każdej z ofert. Gdzie 1 oznacza niezadowolon a 5 bardzo zadowolony</p></br>
+    <form action="{{ path('SAW', {'idPrzetargu': idPrzetargu}) }}" method="POST" name="saw">
+        <input type="number" value="55" id="w">
+        {% for oferta in oferty %}
+            <h3>Dane oferty</h3>
+            Cena: {{ oferta.cena }} <input type="number" min="1" max="5" id="c{{ oferta.id }}"> </br>
+            Termin realizacji w miesiącach: {{ oferta.terminRealizacji }} <input type="number" min="1" max="5" id="t{{ oferta.id }}"></br>
+            Okres gwarancji w miesiącach: {{ oferta.okresGwarancji }} <input type="number" min="1" max="5" id="o{{ oferta.id }}"></br>
+            Doświdczenie: {{ oferta.doswiadczenie }} <input type="number" min="1" max="5" id="d{{ oferta.id }}"></br>
+            Ilość podobnych projektów: {{ oferta.iloscPodobnychProjektow }} <input type="number" min="1" max="5" id="i{{ oferta.id }}"></br>
+        {% endfor %}
+        <input type="submit" value="Metoda SAW">
+    </form>
 {% endblock %}

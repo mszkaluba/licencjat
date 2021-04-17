@@ -6,6 +6,8 @@ use App\Entity\Oferta;
 use App\Entity\Przetarg;
 use App\Entity\User;
 use ContainerSDI9S8v\getAppAuthenticatorService;
+use phpDocumentor\Reflection\Types\Array_;
+use PhpParser\Node\Expr\List_;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -202,6 +204,27 @@ class PracaController extends AbstractController
         if (!$oferty) {
             print "<script type='text/javascript'>alert('Nie złożono jeszcze żadnej oferty!');</script>";
         }
-        return $this->render('Praca/ofertyPrzetargu.html.twig', ['oferty' => $oferty]);
+        return $this->render('Praca/ofertyPrzetargu.html.twig', ['oferty' => $oferty, 'idPrzetargu' => $id]);
+    }
+
+    /**
+     * @Route("/SAW/{idPrzetargu}", name="SAW")
+     * @Method({"POST", "GET"})
+     */
+    public function metodaSAW($idPrzetargu)
+    {
+        $oferty = $this->getDoctrine()->getRepository(Oferta::class)->findBy(array('idPrzetargu' => $idPrzetargu));
+        $oceny[][] = null;
+        $i = 0;
+        foreach ($oferty as $oferta){
+            $oqw = $_POST['w'];
+            $oceny[$i][1] = $_POST['t'.strval($oferta->getId())];
+            $oceny[$i][2] = $_POST['o'.strval($oferta->getId())];
+            $oceny[$i][3] = $_POST['d'.strval($oferta->getId())];
+            $oceny[$i][4] = $_POST['i'.strval($oferta->getId())];
+            $i++;
+        }
+
+        return $this->render('Praca/metodaSAW.html.twig');
     }
 }
