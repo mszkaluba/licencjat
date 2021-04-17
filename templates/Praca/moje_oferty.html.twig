@@ -13,8 +13,8 @@
         <h3>Dane oferty</h3>
         Nazwa: {{ oferta.idPrzetargu.nazwa }} </br>
         Cena: {{ oferta.cena }} </br>
-        Termin realizacji: {{ oferta.terminRealizacji|date("d/m/Y") }} </br>
-        Okres gwarancji: {{ oferta.okresGwarancji|date("d/m/Y") }} </br>
+        Termin realizacji w miesiącach: {{ oferta.terminRealizacji }} </br>
+        Okres gwarancji w miesiącach: {{ oferta.okresGwarancji }} </br>
         Doświdczenie: {{ oferta.doswiadczenie }} </br>
         Ilość podobnych projektów: {{ oferta.iloscPodobnychProjektow }} </br>
         <a href="{{ path('edytujOferte', {'id': oferta.id}) }}">Edytuj ofertę</a>

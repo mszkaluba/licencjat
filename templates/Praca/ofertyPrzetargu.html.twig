@@ -12,8 +12,8 @@
     {% for oferta in oferty %}
         <h3>Dane oferty</h3>
         Cena: {{ oferta.cena }} </br>
-        Termin realizacji: {{ oferta.terminRealizacji|date("d/m/Y") }} </br>
-        Okres gwarancji: {{ oferta.okresGwarancji|date("d/m/Y") }} </br>
+        Termin realizacji: {{ oferta.terminRealizacji }} </br>
+        Okres gwarancji: {{ oferta.okresGwarancji }} </br>
         Doświdczenie: {{ oferta.doswiadczenie }} </br>
         Ilość podobnych projektów: {{ oferta.iloscPodobnychProjektow }} </br>
     {% endfor %}
