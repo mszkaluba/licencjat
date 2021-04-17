@@ -37,18 +37,16 @@ class Oferta
     private $cena;
 
     /**
-     * @var \DateTime
+     * @var int
      *
-     * @ORM\Column(name="termin_realizacji", type="date", nullable=false)
-     * @Assert\GreaterThan("today")
+     * @ORM\Column(name="termin_realizacji", nullable=false)
      */
     private $terminRealizacji;
 
     /**
-     * @var \DateTime|null
+     * @var int
      *
-     * @ORM\Column(name="okres_gwarancji", type="date", nullable=true)
-     * @Assert\GreaterThan(propertyPath="terminRealizacji")
+     * @ORM\Column(name="okres_gwarancji", nullable=true)
      */
     private $okresGwarancji;
 
@@ -127,17 +125,17 @@ class Oferta
     }
 
     /**
-     * @return \DateTime
+     * @return int
      */
-    public function getTerminRealizacji(): \DateTime
+    public function getTerminRealizacji(): int
     {
         return $this->terminRealizacji;
     }
 
     /**
-     * @return \DateTime|null
+     * @return int
      */
-    public function getOkresGwarancji(): ?\DateTime
+    public function getOkresGwarancji(): int
     {
         return $this->okresGwarancji;
     }
@@ -183,17 +181,17 @@ class Oferta
     }
 
     /**
-     * @param \DateTime $terminRealizacji
+     * @param int $terminRealizacji
      */
-    public function setTerminRealizacji(\DateTime $terminRealizacji): void
+    public function setTerminRealizacji(int $terminRealizacji): void
     {
         $this->terminRealizacji = $terminRealizacji;
     }
 
     /**
-     * @param \DateTime|null $okresGwarancji
+     * @param int $okresGwarancji
      */
-    public function setOkresGwarancji(?\DateTime $okresGwarancji): void
+    public function setOkresGwarancji(int $okresGwarancji): void
     {
         $this->okresGwarancji = $okresGwarancji;
     }

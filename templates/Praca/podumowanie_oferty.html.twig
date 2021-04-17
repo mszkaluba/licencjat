@@ -9,9 +9,9 @@
     Nazwa przetargu: {{ oferta.idPrzetargu.nazwa }} </br>
     Nazwisko/Nazwa: {{ oferta.nazwsiskolubnazwa }} </br>
     Cena: {{ oferta.cena }} </br>
-    Termin realizacji: {{ oferta.terminRealizacji|date("d/m/Y")}} </br>
-    Okres gwarancji: {{ oferta.okresGwarancji|date("d/m/Y") }} </br>
+    Termin realizacji w miesiącach: {{ oferta.terminRealizacji }} </br>
+    Okres gwarancji w miesiącach: {{ oferta.okresGwarancji }} </br>
     Doświadczenie: {{ oferta.doswiadczenie }} </br>
     Ilość podobnych projektów: {{ oferta.iloscPodobnychProjektow }} </br></br>
-    <a href="{{ path('mojeOferty') }}">Strona głowna</a>
+    <a href="{{ path('mojeOferty', {'id': app.user.id}) }}">Strona głowna</a>
 {% endblock %}
