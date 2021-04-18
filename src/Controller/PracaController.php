@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Oferta;
 use App\Entity\Przetarg;
 use App\Entity\User;
+use Ds\Map;
 use ContainerSDI9S8v\getAppAuthenticatorService;
 use phpDocumentor\Reflection\Types\Array_;
 use PhpParser\Node\Expr\List_;
@@ -140,9 +141,10 @@ class PracaController extends AbstractController
 
     /**
      * @Route("/edytujPrzetarg/{id}", name="edytujPrzetarg")
-     *@Method ({"GET", "POST"})
+     * @Method ({"GET", "POST"})
      */
-    public function edytujPrzetarg(Request $request, $id) {
+    public function edytujPrzetarg(Request $request, $id)
+    {
         $przetarg = new Przetarg();
         $przetarg = $this->getDoctrine()->getRepository(Przetarg::class)->find($id);
 
@@ -155,7 +157,7 @@ class PracaController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
 
@@ -166,9 +168,10 @@ class PracaController extends AbstractController
 
     /**
      * @Route("/edytujOferte/{id}", name="edytujOferte")
-     *@Method ({"GET", "POST"})
+     * @Method ({"GET", "POST"})
      */
-    public function edytujOferte(Request $request, $id) {
+    public function edytujOferte(Request $request, $id)
+    {
         $oferta = new Oferta();
         $oferta = $this->getDoctrine()->getRepository(Oferta::class)->find($id);
 
@@ -184,7 +187,7 @@ class PracaController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
 
@@ -208,21 +211,73 @@ class PracaController extends AbstractController
     }
 
     /**
-     * @Route("/SAW/{idPrzetargu}", name="SAW")
+     * @Route("/SAW/{id}", name="SAW")
      * @Method({"POST", "GET"})
      */
-    public function metodaSAW($idPrzetargu)
+    public function metodaSAW($id)
     {
-        $oferty = $this->getDoctrine()->getRepository(Oferta::class)->findBy(array('idPrzetargu' => $idPrzetargu));
-        $oceny[][] = null;
-        $i = 0;
-        foreach ($oferty as $oferta){
-            $oqw = $_POST['w'];
-            $oceny[$i][1] = $_POST['t'.strval($oferta->getId())];
-            $oceny[$i][2] = $_POST['o'.strval($oferta->getId())];
-            $oceny[$i][3] = $_POST['d'.strval($oferta->getId())];
-            $oceny[$i][4] = $_POST['i'.strval($oferta->getId())];
-            $i++;
+        $oferty = $this->getDoctrine()->getRepository(Oferta::class)->findBy(array('idPrzetargu' => $id));
+        $oceny = array();
+        $ileOfert = 0;
+        foreach ($oferty as $oferta) {
+            $wartosciDlaOferty = array();
+            array_push($wartosciDlaOferty, $oferta->getId());
+            $cena = $_POST['c' . $oferta->getId()];
+            array_push($wartosciDlaOferty, $cena);
+            $terminRealizacji = $_POST['t' . $oferta->getId()];
+            array_push($wartosciDlaOferty, $terminRealizacji);
+            $okresGwarancji = $_POST['o' . $oferta->getId()];
+            array_push($wartosciDlaOferty, $okresGwarancji);
+            $doswiadczenie = $_POST['d' . $oferta->getId()];
+            array_push($wartosciDlaOferty, $doswiadczenie);
+            $iloscPodobnychProjektow = $_POST['i' . $oferta->getId()];
+            array_push($wartosciDlaOferty, $iloscPodobnychProjektow);
+
+            $ileOfert++;
+            array_push($oceny, $wartosciDlaOferty);
+        }
+        $maxOcenaCeny = $oceny[0][1];
+        $maxOcenaTerminu = $oceny[0][2];
+        $maxOcenaGwarancji = $oceny[0][3];
+        $maxOcenaDoswiadczenia = $oceny[0][4];
+        $maxOcenaIlosci = $oceny[0][5];
+        for ($i = 1; $i < $ileOfert; $i++) {
+            if ($oceny[$i][1] > $maxOcenaCeny)
+                $maxOcenaCeny = $oceny[$i][1];
+            if ($oceny[$i][2] > $maxOcenaCeny)
+                $maxOcenaTerminu = $oceny[$i][2];
+            if ($oceny[$i][3] > $maxOcenaCeny)
+                $maxOcenaGwarancji = $oceny[$i][3];
+            if ($oceny[$i][4] > $maxOcenaCeny)
+                $maxOcenaDoswiadczenia = $oceny[$i][4];
+            if ($oceny[$i][5] > $maxOcenaCeny)
+                $maxOcenaIlosci = $oceny[$i][5];
+        }
+
+        $normalizacja = array();
+        for ($i = 0; $i < $ileOfert; $i++) {
+            $wartosciZnormalizowaneDlaOferty = array();
+            array_push($wartosciZnormalizowaneDlaOferty, $oceny[$i][0]);
+            $norCeny = $oceny[$i][1] / $maxOcenaCeny;
+            array_push($wartosciZnormalizowaneDlaOferty, $norCeny);
+            $norTerminu = $oceny[$i][2] / $maxOcenaTerminu;
+            array_push($wartosciZnormalizowaneDlaOferty, $norTerminu);
+            $norGwarancji = $oceny[$i][3] / $maxOcenaGwarancji;
+            array_push($wartosciZnormalizowaneDlaOferty, $norGwarancji);
+            $norDoswiadczenia = $oceny[$i][4] / $maxOcenaDoswiadczenia;
+            array_push($wartosciZnormalizowaneDlaOferty, $norDoswiadczenia);
+            $norIlosci = $oceny[$i][5] / $maxOcenaIlosci;
+            array_push($wartosciZnormalizowaneDlaOferty, $norIlosci);
+
+            array_push($normalizacja, $wartosciZnormalizowaneDlaOferty);
+        }
+
+
+        for ($i = 0; $i < $ileOfert; $i++) {
+            $sumaOcenZnormalizowanych = 0;
+            for ($j = 1; $j <= 5; $j++) {
+                $sumaOcenZnormalizowanych += $normalizacja[$i][$j];
+            }
         }
 
         return $this->render('Praca/metodaSAW.html.twig');
