@@ -272,14 +272,28 @@ class PracaController extends AbstractController
             array_push($normalizacja, $wartosciZnormalizowaneDlaOferty);
         }
 
-
+        $wyniki = array();
         for ($i = 0; $i < $ileOfert; $i++) {
+            $wynikOferty = array();
+            array_push($wynikOferty, $normalizacja[$i][0]);
             $sumaOcenZnormalizowanych = 0;
             for ($j = 1; $j <= 5; $j++) {
                 $sumaOcenZnormalizowanych += $normalizacja[$i][$j];
+                array_push($wynikOferty, $sumaOcenZnormalizowanych);
             }
+            array_push($wyniki, $wynikOferty);
         }
 
-        return $this->render('Praca/metodaSAW.html.twig');
+        $najLepszaOcena = $wyniki[0][1];
+        $najLepszaOfertaId = $wyniki[0][0];
+        for ($i = 1; $i < $ileOfert; $i++) {
+            if ($najLepszaOcena < $wyniki[$i][1]) {
+                $najLepszaOcena = $wyniki[$i][1];
+                $najLepszaOfertaId = $wyniki[$i][0];
+            }
+        }
+        $najLepszaOferta = $this->getDoctrine()->getRepository(Oferta::class)->find($najLepszaOfertaId);
+
+        return $this->render('Praca/metodaSAW.html.twig', ['oferta' => $najLepszaOferta]);
     }
 }
