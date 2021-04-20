@@ -11,7 +11,7 @@
     <a href="{{ path('app_logout') }}">Wyloguj</a>
     <p>Ustaw stopień zadowolenia dla poszczególnego atrybutu w każdej z ofert. Gdzie 1 oznacza niezadowolon a 5 bardzo
         zadowolony</p></br>
-    <form action="{{ path('SAW', {'id': idPrzetargu}) }}" method="POST" name="nowaPostac">
+    <form action="{{ path('SAW', {'id': idPrzetargu}) }}" method="POST" name="SAW">
         {% for oferta in oferty %}
             <h3>Dane oferty</h3>
             <label>Nazwisko lub nazwa firmy: {{ oferta.nazwsiskolubnazwa }}</label></br>
