@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block head %}
+    <meta charset="utf-8">
+    {% block title %}Najlepsza oferta według metody SAW{% endblock %}
+{% endblock %}
+
+{% block body %}
+    Nazwisko lub nazwa firmy: {{ oferta.nazwsiskolubnazwa }}</br>
+    Cena: {{ oferta.cena }} </br>
+    Termin realizacji w miesiącach: {{ oferta.terminRealizacji }} </br>
+    Okres gwarancji w miesiącach: {{ oferta.okresGwarancji }} </br>
+    Doświdczenie: {{ oferta.doswiadczenie }} </br>
+{% endblock %}
