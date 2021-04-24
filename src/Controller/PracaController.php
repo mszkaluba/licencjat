@@ -211,12 +211,21 @@ class PracaController extends AbstractController
     }
 
     /**
-     * @Route("/SAW/{id}", name="SAW")
+     * @Route("/SAWWariant1/{id}", name="SAW1Form")
+     * @Method({"POST", "GET"})
+     */
+    public function SAW1Form($id) {
+        $oferty = $this->getDoctrine()->getRepository(Oferta::class)->findBy(array('idPrzetargu' => $id));
+        return $this->render('Praca/SAWWariant1.html.twig', ['oferty' => $oferty, 'idPrzetargu' => $id]);
+    }
+
+    /**
+     * @Route("/SAW1/{id}", name="SAW1")
      * @Method({"POST", "GET"})
      */
     public function metodaSAW($id)
     {
-        $oferty = $this->getDoctrine()->getRepository(Oferta::class)->findBy(array('idPrzetargu' => $id));
+        $oferty = $this->getOferty($id);
         $oceny = array();
         $ileOfert = 0;
         foreach ($oferty as $oferta) {
@@ -244,13 +253,13 @@ class PracaController extends AbstractController
         for ($i = 1; $i < $ileOfert; $i++) {
             if ($oceny[$i][1] > $maxOcenaCeny)
                 $maxOcenaCeny = $oceny[$i][1];
-            if ($oceny[$i][2] > $maxOcenaCeny)
+            if ($oceny[$i][2] > $maxOcenaTerminu)
                 $maxOcenaTerminu = $oceny[$i][2];
-            if ($oceny[$i][3] > $maxOcenaCeny)
+            if ($oceny[$i][3] > $maxOcenaGwarancji)
                 $maxOcenaGwarancji = $oceny[$i][3];
-            if ($oceny[$i][4] > $maxOcenaCeny)
+            if ($oceny[$i][4] > $maxOcenaDoswiadczenia)
                 $maxOcenaDoswiadczenia = $oceny[$i][4];
-            if ($oceny[$i][5] > $maxOcenaCeny)
+            if ($oceny[$i][5] > $maxOcenaIlosci)
                 $maxOcenaIlosci = $oceny[$i][5];
         }
 
@@ -294,6 +303,103 @@ class PracaController extends AbstractController
         }
         $najLepszaOferta = $this->getDoctrine()->getRepository(Oferta::class)->find($najLepszaOfertaId);
 
-        return $this->render('Praca/metodaSAW.html.twig', ['oferta' => $najLepszaOferta]);
+        return $this->render('Praca/najlepszaOferta.html.twig', ['oferta' => $najLepszaOferta]);
+    }
+
+    /**
+     * @Route("/SAWWariant2/{id}", name="SAW2Form")
+     * @Method({"POST", "GET"})
+     */
+    public function SAW2Form($id) {
+        $oferty = $this->getDoctrine()->getRepository(Oferta::class)->findBy(array('idPrzetargu' => $id));
+        return $this->render('Praca/SAWWariant2.html.twig', ['oferty' => $oferty, 'idPrzetargu' => $id]);
+    }
+
+    /**
+     * @Route("/SAW2/{id}", name="SAW2")
+     * @Method({"POST", "GET"})
+     */
+    public function metodaSAW2($id)
+    {
+        $oferty = $this->getOferty($id);
+        $oceny = array();
+        $ileOfert = 0;
+        foreach ($oferty as $oferta) {
+            $wartosciDlaOferty = array();
+            array_push($wartosciDlaOferty, $oferta->getId());
+            array_push($wartosciDlaOferty, $oferta->getCena());
+            array_push($wartosciDlaOferty, $oferta->getTerminRealizacji());
+            array_push($wartosciDlaOferty, $oferta->getOkresGwarancji());
+            $doswiadczenie = $_POST['d' . $oferta->getId()];
+            array_push($wartosciDlaOferty, $doswiadczenie);
+            array_push($wartosciDlaOferty, $oferta->getIloscPodobnychProjektow());
+
+            $ileOfert++;
+            array_push($oceny, $wartosciDlaOferty);
+        }
+        $minCena = $oceny[0][1];
+        $minTermin = $oceny[0][2];
+        $maxGwarancji = $oceny[0][3];
+        $maxDoswiadczenia = $oceny[0][4];
+        $maxIloscs = $oceny[0][5];
+        for ($i = 1; $i < $ileOfert; $i++) {
+            if ($oceny[$i][1] < $minCena)
+                $minCena = $oceny[$i][1];
+            if ($oceny[$i][2] < $minTermin)
+                $minTermin = $oceny[$i][2];
+            if ($oceny[$i][3] > $maxGwarancji)
+                $maxGwarancji = $oceny[$i][3];
+            if ($oceny[$i][4] > $maxDoswiadczenia)
+                $maxDoswiadczenia = $oceny[$i][4];
+            if ($oceny[$i][5] > $maxIloscs)
+                $maxIloscs = $oceny[$i][5];
+        }
+
+        $normalizacja = array();
+        for ($i = 0; $i < $ileOfert; $i++) {
+            $wartosciZnormalizowaneDlaOferty = array();
+            array_push($wartosciZnormalizowaneDlaOferty, $oceny[$i][0]);
+            $norCeny = $minCena / $oceny[$i][1];
+            array_push($wartosciZnormalizowaneDlaOferty, $norCeny);
+            $norTerminu = $minTermin / $oceny[$i][2];
+            array_push($wartosciZnormalizowaneDlaOferty, $norTerminu);
+            $norGwarancji = $oceny[$i][3] / $maxGwarancji;
+            array_push($wartosciZnormalizowaneDlaOferty, $norGwarancji);
+            $norDoswiadczenia = $oceny[$i][4] / $maxDoswiadczenia;
+            array_push($wartosciZnormalizowaneDlaOferty, $norDoswiadczenia);
+            $norIlosci = $oceny[$i][5] / $maxIloscs;
+            array_push($wartosciZnormalizowaneDlaOferty, $norIlosci);
+
+            array_push($normalizacja, $wartosciZnormalizowaneDlaOferty);
+        }
+
+        $wyniki = array();
+        for ($i = 0; $i < $ileOfert; $i++) {
+            $wynikOferty = array();
+            array_push($wynikOferty, $normalizacja[$i][0]);
+            $sumaOcenZnormalizowanych = 0;
+            for ($j = 1; $j <= 5; $j++) {
+                $sumaOcenZnormalizowanych += $normalizacja[$i][$j];
+                array_push($wynikOferty, $sumaOcenZnormalizowanych);
+            }
+            array_push($wyniki, $wynikOferty);
+        }
+
+        $najLepszaOcena = $wyniki[0][1];
+        $najLepszaOfertaId = $wyniki[0][0];
+        for ($i = 1; $i < $ileOfert; $i++) {
+            if ($najLepszaOcena < $wyniki[$i][1]) {
+                $najLepszaOcena = $wyniki[$i][1];
+                $najLepszaOfertaId = $wyniki[$i][0];
+            }
+        }
+        $najLepszaOferta = $this->getDoctrine()->getRepository(Oferta::class)->find($najLepszaOfertaId);
+
+        return $this->render('Praca/najlepszaOferta.html.twig', ['oferta' => $najLepszaOferta]);
+    }
+
+    private function getOferty($id) {
+        $oferty = $this->getDoctrine()->getRepository(Oferta::class)->findBy(array('idPrzetargu' => $id));
+        return $oferty;
     }
 }

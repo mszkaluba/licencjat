@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block head %}
+    <meta charset="utf-8" xmlns="http://www.w3.org/1999/html">
+    {% block title %}Oferty dla przetargu{% endblock %}
+{% endblock %}
+
+{% block body %}
+    <a href="{{ path('glowna') }}">Przetargi</a>
+    <a href="{{ path('mojePrzetargi', {'id': app.user.id}) }}">Moje przetargi</a>
+    <a href="{{ path('mojeOferty', {'id': app.user.id}) }}">Moje oferty</a>
+    <a href="{{ path('app_logout') }}">Wyloguj</a>
+    <p>Ustaw stopień zadowolenia dla poszczególnego atrybutu w każdej z ofert. Gdzie 1 oznacza niezadowolon a 5 bardzo
+        zadowolony</p></br>
+    <form action="{{ path('SAW2', {'id': idPrzetargu}) }}" method="POST" name="SAW">
+        {% for oferta in oferty %}
+            <h3>Dane oferty</h3>
+            <label>Nazwisko lub nazwa firmy: {{ oferta.nazwsiskolubnazwa }}</label></br>
+            <label>Cena: {{ oferta.cena }}</label></br>
+            <label>Termin realizacji w miesiącach: {{ oferta.terminRealizacji }}</label></br>
+            <label>Okres gwarancji w miesiącach: {{ oferta.okresGwarancji }}</label></br>
+            <label>Doświadczenie: {{ oferta.doswiadczenie }}</label>
+            <input type="number" min="1" max="10" name="d{{ oferta.id }}" id="d{{ oferta.id }}" required/></br>
+            <label>Ilość podobnych projektów: {{ oferta.iloscPodobnychProjektow }}</label></br>
+        {% endfor %}
+        <input type="submit" value="Metoda SAW"/></br>
+    </form>
+{% endblock %}
