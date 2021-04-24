@@ -5,10 +5,23 @@
 {% endblock %}
 
 {% block body %}
-    Nazwisko lub nazwa firmy: {{ oferta.nazwsiskolubnazwa }}</br>
-    Cena: {{ oferta.cena }} </br>
-    Termin realizacji w miesiącach: {{ oferta.terminRealizacji }} </br>
-    Okres gwarancji w miesiącach: {{ oferta.okresGwarancji }} </br>
-    Doświdczenie: {{ oferta.doswiadczenie }} </br>
-    Ilość podobnych projektów: {{ oferta.iloscPodobnychProjektow }}
+    <div class="cialo">
+        <nav class="navbar navbar-light" style="background-color: #F0FFFF;">
+            <ul>
+                <li><a href="{{ path('glowna') }}" type="button">Przetargi</a></li>
+                <li><a href="{{ path('mojePrzetargi', {'id': app.user.id}) }}" type="button">Moje przetargi</a></li>
+                <li><a href="{{ path('mojeOferty', {'id': app.user.id}) }}" type="button">Moje oferty</a></li>
+                <li><a href="{{ path('app_logout') }}" type="button" style="float: right;">Wyloguj</a></li>
+            </ul>
+        </nav>
+        </nav>
+        <div class="najOferta">
+            <b>Nazwisko lub nazwa firmy:</b> {{ oferta.nazwsiskolubnazwa }}</br>
+            <b>Cena:</b> {{ oferta.cena }} </br>
+            <b>Termin realizacji w miesiącach:</b> {{ oferta.terminRealizacji }} </br>
+            <b>Okres gwarancji w miesiącach:</b> {{ oferta.okresGwarancji }} </br>
+            <b>Doświdczenie:</b> {{ oferta.doswiadczenie }} </br>
+            <b>Ilość podobnych projektów:</b> {{ oferta.iloscPodobnychProjektow }}
+        </div>
+    </div>
 {% endblock %}
