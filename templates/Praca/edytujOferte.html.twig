@@ -6,14 +6,18 @@
 
 {% block body %}
     {% if app.user %}
-        <a href="{{ path('glowna') }}">Przetargi</a>
-        <a href="{{ path('mojePrzetargi', {'id': app.user.id}) }}">Moje przetargi</a>
-        <a href="{{ path('mojeOferty', {'id': app.user.id}) }}">Moje oferty</a>
-        <a href="{{ path('app_logout') }}" type="button">Wyloguj</a></br></br>
-        <h3>Zedytuj ofertę {{ app.user.username }}</h3>
-
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        {{ form_end(form) }}
+        <nav class="navbar navbar-light" style="background-color: #F0FFFF;">
+            <ul>
+                <li><a href="{{ path('glowna') }}" type="button">Przetargi</a></li>
+                <li><a href="{{ path('mojePrzetargi', {'id': app.user.id}) }}" type="button">Moje przetargi</a></li>
+                <li><a href="{{ path('mojeOferty', {'id': app.user.id}) }}" type="button">Moje oferty</a></li>
+                <li><a href="{{ path('app_logout') }}" type="button" style="float: right;">Wyloguj</a></li>
+            </ul>
+        </nav>
+        <div class="dodajPrzetarg">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+        </div>
     {% endif %}
 {% endblock %}

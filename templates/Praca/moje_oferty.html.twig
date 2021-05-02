@@ -5,18 +5,26 @@
 {% endblock %}
 
 {% block body %}
-    <a href="{{ path('glowna') }}">Przetargi</a>
-    <a href="{{ path('mojePrzetargi', {'id': app.user.id}) }}">Moje przetargi</a>
-    <a href="{{ path('mojeOferty', {'id': app.user.id}) }}">Moje oferty</a>
-    <a href="{{ path('app_logout') }}">Wyloguj</a>
+    <nav class="navbar navbar-light" style="background-color: #F0FFFF;">
+        <ul>
+            <li><a href="{{ path('glowna') }}" type="button">Przetargi</a></li>
+            <li><a href="{{ path('mojePrzetargi', {'id': app.user.id}) }}" type="button">Moje przetargi</a></li>
+            <li><a href="{{ path('mojeOferty', {'id': app.user.id}) }}" type="button">Moje oferty</a></li>
+            <li><a href="{{ path('app_logout') }}" type="button" style="float: right;">Wyloguj</a></li>
+        </ul>
+    </nav>
     {% for oferta in oferty %}
-        <h3>Dane oferty</h3>
-        Nazwa: {{ oferta.idPrzetargu.nazwa }} </br>
-        Cena: {{ oferta.cena }} </br>
-        Termin realizacji w miesiącach: {{ oferta.terminRealizacji }} </br>
-        Okres gwarancji w miesiącach: {{ oferta.okresGwarancji }} </br>
-        Doświdczenie: {{ oferta.doswiadczenie }} </br>
-        Ilość podobnych projektów: {{ oferta.iloscPodobnychProjektow }} </br>
-        <a href="{{ path('edytujOferte', {'id': oferta.id}) }}">Edytuj ofertę</a>
+        <div class="oferty">
+            <h3>Dane oferty</h3>
+            Nazwa: {{ oferta.idPrzetargu.nazwa }} </br>
+            Cena: {{ oferta.cena }} </br>
+            Termin realizacji w miesiącach: {{ oferta.terminRealizacji }} </br>
+            Okres gwarancji w miesiącach: {{ oferta.okresGwarancji }} </br>
+            Doświdczenie: {{ oferta.doswiadczenie }} </br>
+            Ilość podobnych projektów: {{ oferta.iloscPodobnychProjektow }} </br>
+            <ul>
+                <li><a href="{{ path('edytujOferte', {'id': oferta.id}) }}">Edytuj ofertę</a></li>
+            </ul>
+        </div>
     {% endfor %}
 {% endblock %}

@@ -14,20 +14,23 @@
                 <li><a href="{{ path('app_logout') }}" type="button" style="float: right;">Wyloguj</a></li>
             </ul>
         </nav>
-        {% for przetarg in przetargi %}
-            <div class="oferty">
-                <ul>
-                    <li><a href="{{ path('edytujPrzetarg', {'id': przetarg.id}) }}" type="button">Edytuj przetarg</a>
-                    </li>
-                    <li><a href="{{ path('ofertyPrzetargu', {'id': przetarg.id}) }}" type="button">Pokaż oferty</a></li>
-                </ul>
-                <h3>Dane przetargu</h3>
+        <div class="pudelko">
+            {% for przetarg in przetargi %}
+                <div class="oferty">
+                    <ul>
+                        <li><a href="{{ path('edytujPrzetarg', {'id': przetarg.id}) }}" type="button">Edytuj
+                                przetarg</a>
+                        </li>
+                        <li><a href="{{ path('ofertyPrzetargu', {'id': przetarg.id}) }}" type="button">Pokaż oferty</a>
+                        </li>
+                    </ul>
+                    <h3>Dane przetargu</h3>
 
-                <b>Nazwa i opis:</b> {{ przetarg.nazwa }}</br>
-                <b>Data wystawienia:</b> {{ przetarg.dataRozpoczecia|date("d/m/Y") }} </br>
-                <b>Data zakończenia zgłaszania ofert:</b> {{ przetarg.dataZakonczenia|date("d/m/Y") }}
-
-            </div>
-        {% endfor %}
+                    <b>Nazwa i opis:</b> {{ przetarg.nazwa }}</br>
+                    <b>Data wystawienia:</b> {{ przetarg.dataRozpoczecia|date("d/m/Y") }} </br>
+                    <b>Data zakończenia zgłaszania ofert:</b> {{ przetarg.dataZakonczenia|date("d/m/Y") }}
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

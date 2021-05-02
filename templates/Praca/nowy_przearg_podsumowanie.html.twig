@@ -5,10 +5,21 @@
 {% endblock %}
 
 {% block body %}
-    <h3>Dane dodanego przetargu</h3>
-    Nazwa: {{ przetarg.nazwa }} </br>
-    Osoba/Firma wystawiająca: {{ przetarg.wystawcaNazwa }} </br>
-    Data wystawienia: {{ przetarg.dataRozpoczecia|date("d/m/Y")}} </br>
-    Data zakończenia zgłaszania ofert: {{ przetarg.dataZakonczenia|date("d/m/Y") }} </br></br>
-    <a href="{{ path('mojePrzetargi', {'id': app.user.id}) }}">Moje przetargi</a>
+    <div class="cialo">
+        <nav class="navbar navbar-light" style="background-color: #F0FFFF;">
+            <ul>
+                <li><a href="{{ path('glowna') }}" type="button">Przetargi</a></li>
+                <li><a href="{{ path('mojePrzetargi', {'id': app.user.id}) }}" type="button">Moje przetargi</a></li>
+                <li><a href="{{ path('mojeOferty', {'id': app.user.id}) }}" type="button">Moje oferty</a></li>
+                <li><a href="{{ path('app_logout') }}" type="button" style="float: right;">Wyloguj</a></li>
+            </ul>
+        </nav>
+        <div class="najOferta">
+            <h3>Dane dodanego przetargu</h3>
+            <b>Nazwa: </b>{{ przetarg.nazwa }} </br>
+            <b>Osoba/Firma wystawiająca: </b>{{ przetarg.wystawcaNazwa }} </br>
+            <b>Data wystawienia: </b>{{ przetarg.dataRozpoczecia|date("d/m/Y")}} </br>
+            <b>Data zakończenia zgłaszania ofert: </b>{{ przetarg.dataZakonczenia|date("d/m/Y") }}
+        </div>
+    </div>
 {% endblock %}

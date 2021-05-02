@@ -24,9 +24,9 @@
                 <label><b>Cena:</b> {{ oferta.cena }}</label></br>
                 <label><b>Termin realizacji w miesiącach:</b> {{ oferta.terminRealizacji }}</label></br>
                 <label><b>Okres gwarancji w miesiącach:</b> {{ oferta.okresGwarancji }}</label></br>
-                <label><b>Doświadczenie:</b> {{ oferta.doswiadczenie }}</label>
-                <input type="number" min="1" max="10" name="d{{ oferta.id }}" id="d{{ oferta.id }}" required/></br>
+                <label><b>Doświadczenie:</b> {{ oferta.doswiadczenie }}</label></br>
                 <label><b>Ilość podobnych projektów:</b> {{ oferta.iloscPodobnychProjektow }}</label></br>
+                Ocena doświadczenia: <input type="number" min="1" max="10" name="d{{ oferta.id }}" id="d{{ oferta.id }}" required/></br>
             </div>
         {% endfor %}
         <ul><li><button type="submit" class="button">Wyświetl nalepszą ofertę</button></li></ul>
