@@ -12,6 +12,7 @@ use PhpParser\Node\Expr\List_;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -68,11 +69,15 @@ class PracaController extends AbstractController
         $przetarg = new Przetarg();
 
         $form = $this->createFormBuilder($przetarg)
-            ->add('nazwa', TextType::class, array('label' => 'Nazwa i opis'))
-            ->add('wystawcaNazwa', TextType::class)
-            ->add('dataRozpoczecia', DateType::class, array('widget' => 'choice'))
-            ->add('dataZakonczenia', DateType::class, array('widget' => 'choice'))
-            ->add('zapisz', SubmitType::class, array('label' => 'Zapisz przetarg'))
+            ->add('nazwa', TextareaType::class, array('label' => 'Nazwa i opis',
+                'attr' => array('class' => 'form-control')))
+            ->add('wystawcaNazwa', TextType::class, array('attr' => array('class' => 'form-control')))
+            ->add('dataRozpoczecia', DateType::class, array('widget' => 'single_text',
+                'attr' => array('class' => 'input-group input-daterange')))
+            ->add('dataZakonczenia', DateType::class, array('widget' => 'single_text',
+                'attr' => array('class' => 'input-group input-daterange')))
+            ->add('zapisz', SubmitType::class, array('label' => 'Zapisz przetarg',
+                'attr' => array('class' => 'btn btn-outline-primary', 'style' => 'margin-top:8px')))
             ->getForm();
 
         $form->handleRequest($request);
@@ -112,13 +117,17 @@ class PracaController extends AbstractController
         $oferta = new Oferta();
 
         $form = $this->createFormBuilder($oferta)
-            ->add('nazwsiskolubnazwa', TextType::class, array('label' => 'Nazwisko lub nazwa firmy'))
-            ->add('cena', NumberType::class)
-            ->add('terminRealizacji', NumberType::class, array('label' => 'Termin realizacji w miesiącach:'))
-            ->add('okresGwarancji', NumberType::class, array('label' => 'Okres gwarancji w miesiącach:'))
-            ->add('doswiadczenie', TextType::class)
-            ->add('iloscPodobnychProjektow', NumberType::class)
-            ->add('zapisz', SubmitType::class, array('label' => 'Wyślij ofertę'))
+            ->add('nazwsiskolubnazwa', TextType::class, array('label' => 'Nazwisko lub nazwa firmy',
+                'attr' => array('class' => 'form-control')))
+            ->add('cena', NumberType::class, array('attr' => array('class' => 'form-control')))
+            ->add('terminRealizacji', NumberType::class, array('label' => 'Termin realizacji w miesiącach:',
+                'attr' => array('class' => 'form-control')))
+            ->add('okresGwarancji', NumberType::class, array('label' => 'Okres gwarancji w miesiącach:',
+                'attr' => array('class' => 'form-control')))
+            ->add('doswiadczenie', TextareaType::class, array('attr' => array('class' => 'form-control')))
+            ->add('iloscPodobnychProjektow', NumberType::class, array('attr' => array('class' => 'form-control')))
+            ->add('zapisz', SubmitType::class, array('label' => 'Wyślij ofertę',
+                'attr' => array('class' => 'btn btn-outline-primary', 'style' => 'margin-top:8px')))
             ->getForm();
 
         $form->handleRequest($request);
@@ -149,10 +158,14 @@ class PracaController extends AbstractController
         $przetarg = $this->getDoctrine()->getRepository(Przetarg::class)->find($id);
 
         $form = $this->createFormBuilder($przetarg)
-            ->add('nazwa', TextType::class, array('label' => 'Nazwa i opis'))
-            ->add('dataRozpoczecia', DateType::class, array('widget' => 'choice'))
-            ->add('dataZakonczenia', DateType::class, array('widget' => 'choice'))
-            ->add('zapisz', SubmitType::class, array('label' => 'Zapisz przetarg'))
+            ->add('nazwa', TextareaType::class, array('label' => 'Nazwa i opis',
+                'attr' => array('class' => 'form-control')))
+            ->add('dataRozpoczecia', DateType::class, array('widget' => 'single_text',
+                'attr' => array('class' => 'input-group input-daterange')))
+            ->add('dataZakonczenia', DateType::class, array('widget' => 'single_text',
+                'attr' => array('class' => 'input-group input-daterange')))
+            ->add('zapisz', SubmitType::class, array('label' => 'Zapisz przetarg',
+                'attr' => array('class' => 'btn btn-outline-primary', 'style' => 'margin-top:8px')))
             ->getForm();
 
         $form->handleRequest($request);
@@ -176,13 +189,17 @@ class PracaController extends AbstractController
         $oferta = $this->getDoctrine()->getRepository(Oferta::class)->find($id);
 
         $form = $this->createFormBuilder($oferta)
-            ->add('nazwsiskolubnazwa', TextType::class, array('label' => 'Nazwisko lub nazwa firmy'))
-            ->add('cena', NumberType::class)
-            ->add('terminRealizacji', NumberType::class, array('label' => 'Termin realizacji w miesiącach:'))
-            ->add('okresGwarancji', NumberType::class, array('label' => 'Okres gwarancji w miesiącach:'))
-            ->add('doswiadczenie', TextType::class)
-            ->add('iloscPodobnychProjektow', NumberType::class)
-            ->add('zapisz', SubmitType::class, array('label' => 'Zapisz ofertę'))
+            ->add('nazwsiskolubnazwa', TextType::class, array('label' => 'Nazwisko lub nazwa firmy',
+                'attr' => array('class' => 'form-control')))
+            ->add('cena', NumberType::class, array('attr' => array('class' => 'form-control')))
+            ->add('terminRealizacji', NumberType::class, array('label' => 'Termin realizacji w miesiącach:',
+                'attr' => array('class' => 'form-control')))
+            ->add('okresGwarancji', NumberType::class, array('label' => 'Okres gwarancji w miesiącach:',
+                'attr' => array('class' => 'form-control')))
+            ->add('doswiadczenie', TextareaType::class, array('attr' => array('class' => 'form-control')))
+            ->add('iloscPodobnychProjektow', NumberType::class, array('attr' => array('class' => 'form-control')))
+            ->add('zapisz', SubmitType::class, array('label' => 'Zapisz ofertę',
+                'attr' => array('class' => 'btn btn-outline-primary', 'style' => 'margin-top:8px')))
             ->getForm();
 
         $form->handleRequest($request);

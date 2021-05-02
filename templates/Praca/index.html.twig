@@ -5,6 +5,18 @@
 {% endblock %}
 
 {% block body %}
-    <a href="{{ path('app_login') }}">Zaloguj się</a>
-    <a href="{{ path('user_registration') }}"> Załóż konto </a></br>
+    <nav class="navbar navbar-light" style="background-color: #F0FFFF;">
+        <ul>
+            <li><a href="{{ path('app_login') }}">Zaloguj się</a></li>
+            <li><a href="{{ path('user_registration') }}"> Załóż konto </a></li>
+        </ul>
+    </nav>
+    <div class="najOferta" style="text-align: justify">
+        Aplikacja powstała na potrzebę pracy licencjackiej "Wsparcie w wyborze oferty przetargowej przy pomocy
+        wybranych metod wielokryterialnego wspomagania decyzji".
+        Celem pracy jest zaimplementowanie aplikacji sieciowej, rozwiązującej problem wspomagania wyboru oferty przetargowej
+        przy pomocy metod Wielokryterialnego Wspomagania Decyzji oraz prezentowania ofert przetargowych. Aplikacja będzie miała
+        za zadanie pomagać w rozstrzyganiu delikatnej kwestii jakim są przetargi. Aplikacja będzie miała za zadanie wspierać
+        zespół decyzyjny przez proponowanie według niej najlepszych rozwiązań.
+    </div>
 {% endblock %}

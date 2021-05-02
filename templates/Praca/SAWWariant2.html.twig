@@ -5,23 +5,30 @@
 {% endblock %}
 
 {% block body %}
-    <a href="{{ path('glowna') }}">Przetargi</a>
-    <a href="{{ path('mojePrzetargi', {'id': app.user.id}) }}">Moje przetargi</a>
-    <a href="{{ path('mojeOferty', {'id': app.user.id}) }}">Moje oferty</a>
-    <a href="{{ path('app_logout') }}">Wyloguj</a>
-    <p>Ustaw stopień zadowolenia dla poszczególnego atrybutu w każdej z ofert. Gdzie 1 oznacza niezadowolon a 5 bardzo
-        zadowolony</p></br>
+    <nav class="navbar navbar-light" style="background-color: #F0FFFF;">
+        <ul>
+            <li><a href="{{ path('glowna') }}" type="button">Przetargi</a></li>
+            <li><a href="{{ path('mojePrzetargi', {'id': app.user.id}) }}" type="button">Moje przetargi</a></li>
+            <li><a href="{{ path('mojeOferty', {'id': app.user.id}) }}" type="button">Moje oferty</a></li>
+            <li><a href="{{ path('app_logout') }}" type="button" style="float: right;">Wyloguj</a></li>
+        </ul>
+    </nav>
+    <div class="uwaga">
+        <p>Oceń doświadczenie w skali od 1 do 10 gdzie 10 to najwyższa ocena!</p>
+    </div>
     <form action="{{ path('SAW2', {'id': idPrzetargu}) }}" method="POST" name="SAW">
         {% for oferta in oferty %}
-            <h3>Dane oferty</h3>
-            <label>Nazwisko lub nazwa firmy: {{ oferta.nazwsiskolubnazwa }}</label></br>
-            <label>Cena: {{ oferta.cena }}</label></br>
-            <label>Termin realizacji w miesiącach: {{ oferta.terminRealizacji }}</label></br>
-            <label>Okres gwarancji w miesiącach: {{ oferta.okresGwarancji }}</label></br>
-            <label>Doświadczenie: {{ oferta.doswiadczenie }}</label>
-            <input type="number" min="1" max="10" name="d{{ oferta.id }}" id="d{{ oferta.id }}" required/></br>
-            <label>Ilość podobnych projektów: {{ oferta.iloscPodobnychProjektow }}</label></br>
+            <div class="oferty">
+                <h3>Dane oferty</h3>
+                <label><b>Nazwisko lub nazwa firmy:</b> {{ oferta.nazwsiskolubnazwa }}</label></br>
+                <label><b>Cena:</b> {{ oferta.cena }}</label></br>
+                <label><b>Termin realizacji w miesiącach:</b> {{ oferta.terminRealizacji }}</label></br>
+                <label><b>Okres gwarancji w miesiącach:</b> {{ oferta.okresGwarancji }}</label></br>
+                <label><b>Doświadczenie:</b> {{ oferta.doswiadczenie }}</label></br>
+                <label><b>Ilość podobnych projektów:</b> {{ oferta.iloscPodobnychProjektow }}</label></br>
+                Ocena doświadczenia: <input type="number" min="1" max="10" name="d{{ oferta.id }}" id="d{{ oferta.id }}" required/></br>
+            </div>
         {% endfor %}
-        <input type="submit" value="Metoda SAW"/></br>
+        <ul><li><button type="submit" class="button">Wyświetl nalepszą ofertę</button></li></ul>
     </form>
 {% endblock %}

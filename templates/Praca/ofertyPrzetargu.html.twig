@@ -5,20 +5,40 @@
 {% endblock %}
 
 {% block body %}
-    <a href="{{ path('glowna') }}">Przetargi</a>
-    <a href="{{ path('mojePrzetargi', {'id': app.user.id}) }}">Moje przetargi</a>
-    <a href="{{ path('mojeOferty', {'id': app.user.id}) }}">Moje oferty</a>
-    <a href="{{ path('app_logout') }}">Wyloguj</a>
-    {% for oferta in oferty %}
-        <h3>Dane oferty</h3>
-        <label>Nazwisko lub nazwa firmy: {{ oferta.nazwsiskolubnazwa }}</label></br>
-        <label>Cena: {{ oferta.cena }}</label></br>
-        <label>Termin realizacji w miesiącach: {{ oferta.terminRealizacji }}</label></br>
-        <label>Okres gwarancji w miesiącach: {{ oferta.okresGwarancji }}</label></br>
-        <label>Doświadczenie: {{ oferta.doswiadczenie }}</label></br>
-        <label>Ilość podobnych projektów: {{ oferta.iloscPodobnychProjektow }}</label></br>
-    {% endfor %}
+    <nav class="navbar navbar-light" style="background-color: #F0FFFF;">
+        <ul>
+            <li><a href="{{ path('glowna') }}" type="button">Przetargi</a></li>
+            <li><a href="{{ path('mojePrzetargi', {'id': app.user.id}) }}" type="button">Moje przetargi</a></li>
+            <li><a href="{{ path('mojeOferty', {'id': app.user.id}) }}" type="button">Moje oferty</a></li>
+            <li><a href="{{ path('app_logout') }}" type="button" style="float: right;">Wyloguj</a></li>
+        </ul>
+    </nav>
+    <div class="ofertySort">
+        {% for oferta in oferty %}
+            <div class="oferty2">
+                <h3>Dane oferty</h3>
+                <label><b>Nazwisko lub nazwa firmy:</b> {{ oferta.nazwsiskolubnazwa }}</label></br>
+                <label><b>Cena:</b> {{ oferta.cena }}</label></br>
+                <label><b>Termin realizacji w miesiącach:</b> {{ oferta.terminRealizacji }}</label></br>
+                <label><b>Okres gwarancji w miesiącach:</b> {{ oferta.okresGwarancji }}</label></br>
+                <label><b>Doświadczenie:</b> {{ oferta.doswiadczenie }}</label></br>
+                <label><b>Ilość podobnych projektów:</b> {{ oferta.iloscPodobnychProjektow }}</label></br>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="ofertyMetody">
+        <div class="metoda">
+            <ul><li><a href="{{ path('SAW1Form', {'id': idPrzetargu}) }}">Wybierz</a></li></ul>
+            <p>Pierwsza implementacja metody SAW. Przycis <b>"Wybierz"</b> przeniesie Cię na formularz gdzie będziesz musiał
+                ocenić poszczególene kryteria w skali 1 do 5. Najlepsza oferta zostanie wybrana na podstawie Twoich ocen.</p>
+        </div>
+        <div class="metoda">
+            <ul><li><a href="{{ path('SAW2Form', {'id': idPrzetargu}) }}">Wybierz</a></li></ul>
+            <p><p>Pierwsza implementacja metody SAW. Przycis <b>"Wybierz"</b> przeniesie Cię na formularz gdzie będziesz musiał
+                jeszcze raz zapoznać się z doświadczeniem każdego z wystawców ofert i oceniń je w skali 1 do 10.
+                Najlepsza oferta zostanie wybrana na podstawie Twojej oceny doświadczenia i danych przesłanych przez wystawcę oferty.</p></p>
+        </div>
 
-    <a href="{{ path('SAW1Form', {'id': idPrzetargu}) }}">Wybierz SAW1</a>
-    <a href="{{ path('SAW2Form', {'id': idPrzetargu}) }}">Wybierz SAW2</a>
+    </div>
+
 {% endblock %}

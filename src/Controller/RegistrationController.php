@@ -41,7 +41,7 @@ class RegistrationController extends AbstractController
         }
 
         return $this->render(
-            'Praca/index.html.twig',
+            'registration/register.html.twig',
             array('form' => $form->createView())
         );
     }
