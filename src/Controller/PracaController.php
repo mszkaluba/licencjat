@@ -415,6 +415,140 @@ class PracaController extends AbstractController
         return $this->render('Praca/najlepszaOferta.html.twig', ['oferta' => $najLepszaOferta]);
     }
 
+    /**
+     * @Route("/Shanon/{id}", name="ShanonForm")
+     * @Method({"POST", "GET"})
+     */
+    public function ShanonForm($id) {
+        $oferty = $this->getDoctrine()->getRepository(Oferta::class)->findBy(array('idPrzetargu' => $id));
+        return $this->render('Praca/shanon.html.twig', ['oferty' => $oferty, 'idPrzetargu' => $id]);
+    }
+
+    /**
+     * @Route("/ShanonOferta/{id}", name="Shanon")
+     * @Method({"POST", "GET"})
+     */
+    public function shanon($id) {
+        $oferty = $this->getOferty($id);
+        $Y = array();
+        $ileOfert = 0;
+        foreach ($oferty as $oferta) {
+            $wartosciDlaOferty = array();
+            array_push($wartosciDlaOferty, $oferta->getId());
+            array_push($wartosciDlaOferty, 1/$oferta->getCena());
+            array_push($wartosciDlaOferty, 1/$oferta->getTerminRealizacji());
+            array_push($wartosciDlaOferty, $oferta->getOkresGwarancji());
+            $doswiadczenie = $_POST['d' . $oferta->getId()];
+            array_push($wartosciDlaOferty, $doswiadczenie);
+            array_push($wartosciDlaOferty, $oferta->getIloscPodobnychProjektow());
+
+            $ileOfert++;
+            array_push($Y, $wartosciDlaOferty);
+        }
+        $sumaCen = 0;
+        $sumaTerminow = 0;
+        $sumaGwarancji = 0;
+        $sumaDoswiadczenia = 0;
+        $sumaIlosciProjektow = 0;
+
+        for ($i = 0; $i < $ileOfert; $i++) {
+            $sumaCen += $Y[$i][1];
+            $sumaTerminow += $Y[$i][2];
+            $sumaGwarancji += $Y[$i][3];
+            $sumaDoswiadczenia += $Y[$i][4];
+            $sumaIlosciProjektow += $Y[$i][5];
+        }
+
+        $Z = array();
+        for ($i = 0; $i < $ileOfert; $i++) {
+            $normalizacja = array();
+            array_push($normalizacja, $Y[$i][0]);
+            array_push($normalizacja, $Y[$i][1]/$sumaCen);
+            array_push($normalizacja, $Y[$i][2]/$sumaTerminow);
+            array_push($normalizacja, $Y[$i][3]/$sumaGwarancji);
+            array_push($normalizacja, $Y[$i][4]/$sumaDoswiadczenia);
+            array_push($normalizacja, $Y[$i][5]/$sumaIlosciProjektow);
+
+            array_push($Z, $normalizacja);
+        }
+
+        $sumaCenZn = 0;
+        $sumaTerminowZn = 0;
+        $sumaGwarancjiZn = 0;
+        $sumaDoswiadczeniaZn = 0;
+        $sumaIlosciProjektowZn = 0;
+        for ($i = 0; $i < $ileOfert; $i++) {
+            $sumaCenZn += $Z[$i][1] * log($Z[$i][1]);
+            $sumaTerminowZn += $Z[$i][2] * log($Z[$i][2]);
+            $sumaGwarancjiZn += $Z[$i][3] * log($Z[$i][3]);
+            $sumaDoswiadczeniaZn += $Z[$i][4] * log($Z[$i][4]);
+            $sumaIlosciProjektowZn += $Z[$i][5] * log($Z[$i][5]);
+        }
+
+        $E = array();
+        array_push($E, -1 / log($ileOfert) * $sumaCenZn);
+        array_push($E, -1 / log($ileOfert) * $sumaTerminowZn);
+        array_push($E, -1 / log($ileOfert) * $sumaGwarancjiZn);
+        array_push($E, -1 / log($ileOfert) * $sumaDoswiadczeniaZn);
+        array_push($E, -1 / log($ileOfert) * $sumaIlosciProjektowZn);
+
+        $D = array();
+        array_push($D, 1 - $E[0]);
+        array_push($D, 1 - $E[1]);
+        array_push($D, 1 - $E[2]);
+        array_push($D, 1 - $E[3]);
+        array_push($D, 1 - $E[4]);
+
+        $sumaPoziomuZmiennosci = 0;
+        for ($i = 0; $i < 5; $i++) {
+            $sumaPoziomuZmiennosci += $D[$i];
+        }
+
+        $W = array();
+        array_push($W, $D[0]/$sumaPoziomuZmiennosci);
+        array_push($W, $D[1]/$sumaPoziomuZmiennosci);
+        array_push($W, $D[2]/$sumaPoziomuZmiennosci);
+        array_push($W, $D[3]/$sumaPoziomuZmiennosci);
+        array_push($W, $D[4]/$sumaPoziomuZmiennosci);
+
+        $wyniki = array();
+        for ($i = 0; $i < $ileOfert; $i++) {
+            $rekord = array();
+            array_push($rekord, $Z[$i][0]);
+            array_push($rekord, $Z[$i][1] * $W[0]);
+            array_push($rekord, $Z[$i][2] * $W[1]);
+            array_push($rekord, $Z[$i][3] * $W[2]);
+            array_push($rekord, $Z[$i][4] * $W[3]);
+            array_push($rekord, $Z[$i][5] * $W[4]);
+
+            array_push($wyniki, $rekord);
+        }
+
+        $sumyWynikow = array();
+        for ($i = 0; $i < $ileOfert; $i++) {
+            $wynikOferty = array();
+            array_push($wynikOferty, $wyniki[$i][0]);
+            $sumaOcen = 0;
+            for ($j = 1; $j <= 5; $j++) {
+                $sumaOcen += $wyniki[$i][$j];
+                array_push($wynikOferty, $sumaOcen);
+            }
+            array_push($sumyWynikow, $wynikOferty);
+        }
+
+        $najLepszaOfertaId = $sumyWynikow[0][0];
+        $najLepszaOcena = $sumyWynikow[0][1];
+        for ($i = 1; $i < $ileOfert; $i++) {
+            if ($najLepszaOcena < $sumyWynikow[$i][1]) {
+                $najLepszaOcena = $sumyWynikow[$i][1];
+                $najLepszaOfertaId = $sumyWynikow[$i][0];
+            }
+        }
+
+        $najLepszaOferta = $this->getDoctrine()->getRepository(Oferta::class)->find($najLepszaOfertaId);
+        return $this->render('Praca/najlepszaOferta.html.twig', ['oferta' => $najLepszaOferta]);
+    }
+
     private function getOferty($id) {
         $oferty = $this->getDoctrine()->getRepository(Oferta::class)->findBy(array('idPrzetargu' => $id));
         return $oferty;

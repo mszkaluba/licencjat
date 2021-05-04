@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+{% block head %}
+    <meta charset="utf-8" xmlns="http://www.w3.org/1999/html">
+    {% block title %}Oferty dla przetargu{% endblock %}
+{% endblock %}
+
+{% block body %}
+    <nav class="navbar navbar-light" style="background-color: #F0FFFF;">
+        <ul>
+            <li><a href="{{ path('glowna') }}" type="button">Przetargi</a></li>
+            <li><a href="{{ path('mojePrzetargi', {'id': app.user.id}) }}" type="button">Moje przetargi</a></li>
+            <li><a href="{{ path('mojeOferty', {'id': app.user.id}) }}" type="button">Moje oferty</a></li>
+            <li><a href="{{ path('app_logout') }}" type="button" style="float: right;">Wyloguj</a></li>
+        </ul>
+    </nav>
+    <div class="uwaga">
+        <p>Oceń doświadczenie w skali od 1 do 10 gdzie 10 to najwyższa ocena! Shanon</p>
+    </div>
+    <form action="{{ path('Shanon', {'id': idPrzetargu}) }}" method="POST" name="Shanon">
+        {% for oferta in oferty %}
+            <div class="oferty">
+                <h3>Dane oferty</h3>
+                <label><b>Nazwisko lub nazwa firmy:</b> {{ oferta.nazwsiskolubnazwa }}</label></br>
+                <label><b>Cena:</b> {{ oferta.cena }}</label></br>
+                <label><b>Termin realizacji w miesiącach:</b> {{ oferta.terminRealizacji }}</label></br>
+                <label><b>Okres gwarancji w miesiącach:</b> {{ oferta.okresGwarancji }}</label></br>
+                <label><b>Doświadczenie:</b> {{ oferta.doswiadczenie }}</label></br>
+                <label><b>Ilość podobnych projektów:</b> {{ oferta.iloscPodobnychProjektow }}</label></br>
+                Ocena doświadczenia: <input type="number" min="1" max="10" name="d{{ oferta.id }}" id="d{{ oferta.id }}" required/></br>
+            </div>
+        {% endfor %}
+        <ul><li><button type="submit" class="button">Wyświetl nalepszą ofertę</button></li></ul>
+    </form>
+{% endblock %}
