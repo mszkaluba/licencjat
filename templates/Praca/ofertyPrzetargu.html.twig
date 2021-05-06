@@ -34,9 +34,16 @@
         </div>
         <div class="metoda">
             <ul><li><a href="{{ path('SAW2Form', {'id': idPrzetargu}) }}">Wybierz</a></li></ul>
-            <p><p>Pierwsza implementacja metody SAW. Przycis <b>"Wybierz"</b> przeniesie Cię na formularz gdzie będziesz musiał
+            <p>Druga implementacja metody SAW. Przycis <b>"Wybierz"</b> przeniesie Cię na formularz gdzie będziesz musiał
                 jeszcze raz zapoznać się z doświadczeniem każdego z wystawców ofert i oceniń je w skali 1 do 10.
-                Najlepsza oferta zostanie wybrana na podstawie Twojej oceny doświadczenia i danych przesłanych przez wystawcę oferty.</p></p>
+                Najlepsza oferta zostanie wybrana na podstawie Twojej oceny doświadczenia i danych przesłanych przez wystawcę oferty.</p>
+        </div>
+        <div class="metoda">
+            <ul><li><a href="{{ path('ShanonForm', {'id': idPrzetargu}) }}">Wybierz</a></li></ul>
+            <p>Przycis <b>"Wybierz"</b> przeniesie Cię na formularz gdzie będziesz musiał
+                analogicznie jak w drugiej implementacji metody SAW ocenić dośwadczenie kaźdego z wystawców ofert.
+                Aplikacja na podstawie wszytkich danych ustali wagi poszczególnych kryteriów i wybierze najlepszą ofertę.
+            </p>
         </div>
 
     </div>
