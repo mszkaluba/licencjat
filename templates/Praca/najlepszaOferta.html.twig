@@ -14,13 +14,27 @@
                 <li><a href="{{ path('app_logout') }}" type="button" style="float: right;">Wyloguj</a></li>
             </ul>
         </nav>
-        <div class="najOferta">
-            <b>Nazwisko lub nazwa firmy:</b> {{ oferta.nazwsiskolubnazwa }}</br>
-            <b>Cena:</b> {{ oferta.cena }} </br>
-            <b>Termin realizacji w miesiącach:</b> {{ oferta.terminRealizacji }} </br>
-            <b>Okres gwarancji w miesiącach:</b> {{ oferta.okresGwarancji }} </br>
-            <b>Doświdczenie:</b> {{ oferta.doswiadczenie }} </br>
-            <b>Ilość podobnych projektów:</b> {{ oferta.iloscPodobnychProjektow }}
+        <h3>Najlepsza oferta według {{ wariant }}.</h3>
+        <div class="oferty">
+            <b>Nazwisko lub nazwa firmy:</b> {{ najLepszaOferta.nazwsiskolubnazwa }}</br>
+            <b>Cena:</b> {{ najLepszaOferta.cena }} </br>
+            <b>Termin realizacji w miesiącach:</b> {{ najLepszaOferta.terminRealizacji }} </br>
+            <b>Okres gwarancji w miesiącach:</b> {{ najLepszaOferta.okresGwarancji }} </br>
+            <b>Doświdczenie:</b> {{ najLepszaOferta.doswiadczenie }} </br>
+            <b>Ilość podobnych projektów:</b> {{ najLepszaOferta.iloscPodobnychProjektow }}
         </div>
+        <h3>Pozostałe oferty</h3>
+        {% for oferta in oferty %}
+            {% if oferta.id != najLepszaOferta.id %}
+                <div class="oferty">
+                    <b>Nazwisko lub nazwa firmy:</b> {{ oferta.nazwsiskolubnazwa }}</br>
+                    <b>Cena:</b> {{ oferta.cena }} </br>
+                    <b>Termin realizacji w miesiącach:</b> {{ oferta.terminRealizacji }} </br>
+                    <b>Okres gwarancji w miesiącach:</b> {{ oferta.okresGwarancji }} </br>
+                    <b>Doświdczenie:</b> {{ oferta.doswiadczenie }} </br>
+                    <b>Ilość podobnych projektów:</b> {{ oferta.iloscPodobnychProjektow }}
+                </div>
+            {% endif %}
+        {% endfor %}
     </div>
 {% endblock %}

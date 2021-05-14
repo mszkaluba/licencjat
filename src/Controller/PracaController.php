@@ -71,7 +71,7 @@ class PracaController extends AbstractController
         $form = $this->createFormBuilder($przetarg)
             ->add('nazwa', TextareaType::class, array('label' => 'Nazwa i opis',
                 'attr' => array('class' => 'form-control')))
-            ->add('wystawcaNazwa', TextType::class, array('attr' => array('class' => 'form-control')))
+            ->add('wystawcaNazwa', TextType::class, array('label' => 'Wystawca przetargu', 'attr' => array('class' => 'form-control')))
             ->add('dataRozpoczecia', DateType::class, array('widget' => 'single_text',
                 'attr' => array('class' => 'input-group input-daterange')))
             ->add('dataZakonczenia', DateType::class, array('widget' => 'single_text',
@@ -88,7 +88,8 @@ class PracaController extends AbstractController
             $entityManager->persist($przetarg);
             $entityManager->flush();
 
-            return $this->render('Praca/nowy_przearg_podsumowanie.html.twig', array('przetarg' => $przetarg));
+            $przetargi = $this->getDoctrine()->getRepository(Przetarg::class)->findBy(array('wystawca' => $id));
+            return $this->render('Praca/moje_przetargi.html.twig', ['przetargi' => $przetargi]);
         }
 
         return $this->render('Praca/nowy_przetarg.html.twig', array('form' => $form->createView()));
@@ -142,7 +143,8 @@ class PracaController extends AbstractController
             $entityManager->persist($oferta);
             $entityManager->flush();
 
-            return $this->render('Praca/podumowanie_oferty.html.twig', array('oferta' => $oferta));
+            $oferty = $this->getDoctrine()->getRepository(Oferta::class)->findBy(array('idOsobyfirmy' => $oferta->getIdOsobyfirmy()));
+            return $this->render('Praca/moje_oferty.html.twig', ['oferty' => $oferty]);
         }
 
         return $this->render('Praca/nowa_oferta.html.twig', array('form' => $form->createView()));
@@ -174,7 +176,8 @@ class PracaController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
 
-            return $this->render('Praca/nowy_przearg_podsumowanie.html.twig', array('przetarg' => $przetarg));
+            $przetargi = $this->getDoctrine()->getRepository(Przetarg::class)->findBy(array('wystawca' => $przetarg->getWystawca()));
+            return $this->render('Praca/moje_przetargi.html.twig', ['przetargi' => $przetargi]);
         }
         return $this->render('Praca/edytujPrzetarg.html.twig', array('form' => $form->createView()));
     }
@@ -208,7 +211,8 @@ class PracaController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
 
-            return $this->render('Praca/podumowanie_oferty.html.twig', array('oferta' => $oferta));
+            $oferty = $this->getDoctrine()->getRepository(Oferta::class)->findBy(array('idOsobyfirmy' => $oferta->getIdOsobyfirmy()));
+            return $this->render('Praca/moje_oferty.html.twig', ['oferty' => $oferty]);
         }
         return $this->render('Praca/edytujOferte.html.twig', array('form' => $form->createView()));
     }
@@ -320,7 +324,7 @@ class PracaController extends AbstractController
         }
         $najLepszaOferta = $this->getDoctrine()->getRepository(Oferta::class)->find($najLepszaOfertaId);
 
-        return $this->render('Praca/najlepszaOferta.html.twig', ['oferta' => $najLepszaOferta]);
+        return $this->render('Praca/najlepszaOferta.html.twig', ['najLepszaOferta' => $najLepszaOferta, "oferty" => $oferty, 'wariant' => "waraintu SAW-1"]);
     }
 
     /**
@@ -412,7 +416,7 @@ class PracaController extends AbstractController
         }
         $najLepszaOferta = $this->getDoctrine()->getRepository(Oferta::class)->find($najLepszaOfertaId);
 
-        return $this->render('Praca/najlepszaOferta.html.twig', ['oferta' => $najLepszaOferta]);
+        return $this->render('Praca/najlepszaOferta.html.twig', ['najLepszaOferta' => $najLepszaOferta, "oferty" => $oferty, 'wariant' => "waraintu SAW-2"]);
     }
 
     /**
@@ -546,7 +550,7 @@ class PracaController extends AbstractController
         }
 
         $najLepszaOferta = $this->getDoctrine()->getRepository(Oferta::class)->find($najLepszaOfertaId);
-        return $this->render('Praca/najlepszaOferta.html.twig', ['oferta' => $najLepszaOferta]);
+        return $this->render('Praca/najlepszaOferta.html.twig', ['najLepszaOferta' => $najLepszaOferta, "oferty" => $oferty, 'wariant' => "waraintu SAW-SH"]);
     }
 
     private function getOferty($id) {
