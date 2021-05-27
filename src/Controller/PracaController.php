@@ -394,6 +394,27 @@ class PracaController extends AbstractController
             array_push($normalizacja, $wartosciZnormalizowaneDlaOferty);
         }
 
+        $waznoscCeny = $_POST['cenaW'];
+        $waznoscTerminu = $_POST['terminW'];
+        $waznoscGwarancji = $_POST['gwarancjaW'];
+        $waznoscDoswiadczenia = $_POST['doswiadczenieW'];
+        $waznoscIlosci = $_POST['iloscW'];
+        $sumaWaznosci = $waznoscCeny + $waznoscTerminu + $waznoscGwarancji + $waznoscDoswiadczenia + $waznoscIlosci;
+
+        $wagaCeny = $waznoscCeny * (1 / $sumaWaznosci);
+        $wagaTerminu = $waznoscTerminu * (1 / $sumaWaznosci);
+        $wagaGwarancji = $waznoscGwarancji * (1 / $sumaWaznosci);
+        $wagaDoswiadczenia = $waznoscDoswiadczenia * (1 / $sumaWaznosci);
+        $wagaIlosci = $waznoscIlosci * (1 / $sumaWaznosci);
+
+        for ($i = 0; $i < $ileOfert; $i++) {
+            $normalizacja[$i][1] = $normalizacja[$i][1] * $wagaCeny;
+            $normalizacja[$i][2] = $normalizacja[$i][2] * $wagaTerminu;
+            $normalizacja[$i][3] = $normalizacja[$i][3] * $wagaGwarancji;
+            $normalizacja[$i][4] = $normalizacja[$i][4] * $wagaDoswiadczenia;
+            $normalizacja[$i][5] = $normalizacja[$i][5] * $wagaIlosci;
+        }
+
         $wyniki = array();
         for ($i = 0; $i < $ileOfert; $i++) {
             $wynikOferty = array();

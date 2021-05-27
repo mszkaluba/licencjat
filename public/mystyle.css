@@ -84,6 +84,7 @@ li a:hover {
     padding: 5px;
     height: auto;
     clear: both;
+    text-align: justify;
 }
 
 .button {
