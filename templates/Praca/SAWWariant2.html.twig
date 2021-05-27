@@ -17,6 +17,48 @@
         <p>Oceń doświadczenie w skali od 1 do 10 gdzie 10 to najwyższa ocena!</p>
     </div>
     <form action="{{ path('SAW2', {'id': idPrzetargu}) }}" method="POST" name="SAW">
+        <div class="oferty">
+            <label>Stopień warznoście ceny:</label>
+            <select id="cenaW" name="cenaW" class="form-control" required>
+                <option value="1">Nieistotne</option>
+                <option value="2">Mało ważne</option>
+                <option value="3">Umiarkowanie ważne</option>
+                <option value="4">Ważne</option>
+                <option value="5">Bardzo ważne</option>
+            </select>
+            <label>Stopień warznoście terminu realizacji:</label>
+            <select id="terminW" name="terminW" class="form-control" required>
+                <option value="1">Nieistotne</option>
+                <option value="2">Mało ważne</option>
+                <option value="3">Umiarkowanie ważne</option>
+                <option value="4">Ważne</option>
+                <option value="5">Bardzo ważne</option>
+            </select>
+            <label>Stopień warznoście okresu gwarancji:</label>
+            <select id="gwarancjaW" name="gwarancjaW" class="form-control" required>
+                <option value="1">Nieistotne</option>
+                <option value="2">Mało ważne</option>
+                <option value="3">Umiarkowanie ważne</option>
+                <option value="4">Ważne</option>
+                <option value="5">Bardzo ważne</option>
+            </select>
+            <label>Stopień warznoście doświadczenia:</label>
+            <select id="doswiadczenieW" name="doswiadczenieW" class="form-control" required>
+                <option value="1">Nieistotne</option>
+                <option value="2">Mało ważne</option>
+                <option value="3">Umiarkowanie ważne</option>
+                <option value="4">Ważne</option>
+                <option value="5">Bardzo ważne</option>
+            </select>
+            <label>Stopień warznoście ilości podobnych projektów:</label>
+            <select id="iloscW" name="iloscW" class="form-control" required>
+                <option value="1">Nieistotne</option>
+                <option value="2">Mało ważne</option>
+                <option value="3">Umiarkowanie ważne</option>
+                <option value="4">Ważne</option>
+                <option value="5">Bardzo ważne</option>
+            </select>
+        </div>
         {% for oferta in oferty %}
             <div class="oferty">
                 <h3>Dane oferty</h3>
