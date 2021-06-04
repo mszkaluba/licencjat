@@ -15,12 +15,16 @@
         </ul>
     </nav>
     {% for przetarg in przetargi %}
-        <div class="oferty">
-            <h3>Dane przetargu</h3>
-            Nazwa i opis: {{ przetarg.nazwa }} </br>
-            Data wystawienia: {{ przetarg.dataRozpoczecia|date("d/m/Y") }} </br>
-            Data zakończenia zgłaszania ofert: {{ przetarg.dataZakonczenia|date("d/m/Y") }} </br>
-            <ul><li><a href="{{ path('nowaOferta', {'id': przetarg.id}) }}" type="button">Dodaj ofertę</a></li></ul>
-        </div>
+        {% if przetarg.wystawca.id != app.user.id and przetarg.dataZakonczenia > date() %}
+            <div class="oferty">
+                <h3>Dane przetargu</h3>
+                Nazwa i opis: {{ przetarg.nazwa }} </br>
+                Data wystawienia: {{ przetarg.dataRozpoczecia|date("d/m/Y") }} </br>
+                Data zakończenia zgłaszania ofert: {{ przetarg.dataZakonczenia|date("d/m/Y") }} </br>
+                <ul>
+                    <li><a href="{{ path('nowaOferta', {'id': przetarg.id}) }}" type="button">Dodaj ofertę</a></li>
+                </ul>
+            </div>
+        {% endif %}
     {% endfor %}
 {% endblock %}
