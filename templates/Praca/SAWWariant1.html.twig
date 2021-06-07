@@ -24,15 +24,15 @@
                 <h3>Dane oferty</h3>
                 <label><b>Nazwisko lub nazwa firmy:</b> {{ oferta.nazwsiskolubnazwa }}</label></br>
                 <label><b>Cena:</b> {{ oferta.cena }}</label>
-                <input type="number" min="1" max="5" name="c{{ oferta.id }}" id="c{{ oferta.id }}" required/></br>
+                <input type="number" min="1" max="5" name="c{{ oferta.id }}" id="c{{ oferta.id }}" style="width: 80px;" required/></br>
                 <label><b>Termin realizacji w miesiącach:</b> {{ oferta.terminRealizacji }}</label>
-                <input type="number" min="1" max="5" name="t{{ oferta.id }}" id="t{{ oferta.id }}" required/></br>
+                <input type="number" min="1" max="5" name="t{{ oferta.id }}" id="t{{ oferta.id }}" style="width: 80px;" required/></br>
                 <label><b>Okres gwarancji w miesiącach:</b> {{ oferta.okresGwarancji }}</label>
-                <input type="number" min="1" max="5" name="o{{ oferta.id }}" id="o{{ oferta.id }}" required/></br>
+                <input type="number" min="1" max="5" name="o{{ oferta.id }}" id="o{{ oferta.id }}" style="width: 80px;" required/></br>
                 <label><b>Doświadczenie:</b> {{ oferta.doswiadczenie }}</label>
-                <input type="number" min="1" max="5" name="d{{ oferta.id }}" id="d{{ oferta.id }}" required/></br>
+                <input type="number" min="1" max="5" name="d{{ oferta.id }}" id="d{{ oferta.id }}" style="width: 80px;" required/></br>
                 <label><b>Ilość podobnych projektów:</b> {{ oferta.iloscPodobnychProjektow }}</label>
-                <input type="number" min="1" max="5" name="i{{ oferta.id }}" id="i{{ oferta.id }}" required/></br>
+                <input type="number" min="1" max="5" name="i{{ oferta.id }}" id="i{{ oferta.id }}" style="width: 80px;" required/></br>
             </div>
         {% endfor %}
         <ul><li><button type="submit" class="button">Wyświetl nalepszą ofertę</button></li></ul>

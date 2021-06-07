@@ -68,7 +68,7 @@
                 <label><b>Okres gwarancji w miesiącach:</b> {{ oferta.okresGwarancji }}</label></br>
                 <label><b>Doświadczenie:</b> {{ oferta.doswiadczenie }}</label></br>
                 <label><b>Ilość podobnych projektów:</b> {{ oferta.iloscPodobnychProjektow }}</label></br>
-                Ocena doświadczenia: <input type="number" min="1" max="10" name="d{{ oferta.id }}" id="d{{ oferta.id }}" required/></br>
+                Ocena doświadczenia: <input type="number" min="1" max="10" name="d{{ oferta.id }}" id="d{{ oferta.id }}" style="width: 80px;" required/></br>
             </div>
         {% endfor %}
         <ul><li><button type="submit" class="button">Wyświetl nalepszą ofertę</button></li></ul>
